@@ -4,19 +4,48 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
-    public float tankSize = 1.0f;
-    public float hitPoints = 100;
-    public float damage = 40;
+	[SerializeField] protected float m_maxSpeed = 5.0f;
+	[SerializeField] protected float m_shotTime = 1.0f;
 
-    // Use this for initialization
-    void Start()
+	protected float m_speed = 0.0f;
+	float m_shotTimer = 0.0f;
+
+    public float m_tankSize = 1.0f;
+    public float m_hitPoints = 100;
+    public float m_damage = 40;
+	public bool m_isAlive = false;
+
+	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
+
+	void FixedUpdate()
     {
+		if (m_isAlive)
+		{
+			if (m_shotTimer < m_shotTime)
+			{
+				m_shotTimer += Time.deltaTime;
+			}
 
-    }
+			if(m_hitPoints <= 0.0f)
+			{
+				m_isAlive = false;
+			}
+		}
+	}
 
-    // Update is called once per frame
-    void Update()
-    {
+	public virtual bool Fire()
+	{
 
-    }
+		return false;
+	}
+
+	public virtual void Hit(float damage)
+	{
+		m_hitPoints -= damage;
+	}
+
+	public virtual void Collision()
+	{
+		m_speed = 0.0f;
+	}
 }

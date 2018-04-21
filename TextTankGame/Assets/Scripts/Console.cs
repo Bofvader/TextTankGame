@@ -9,6 +9,7 @@ public class Console : MonoBehaviour
 {
 	[SerializeField] Text m_log = null;
 	[SerializeField] InputField m_input = null;
+	[SerializeField] Player m_player = null;
 
 	string m_fireString = @"^(?isx)fire&";
 	string m_scanString = @"^(?isx)scan&";
@@ -40,10 +41,17 @@ public class Console : MonoBehaviour
 				match = Regex.Match(input, m_fireString);
 				if (match.Success)
 				{
-					input += "\nFiring...";
-					//call player.fire
-					//input += Msg;
-					Debug.Log("Firing");
+					if (m_player.ShotReady)
+					{
+						input += "\nFiring...";
+						//call player.fire
+						//input += Msg;
+						Debug.Log("Firing");
+					}
+					else
+					{
+						input += "\nCurrently reloading.";
+					}
 				}
 				else
 				{
@@ -89,5 +97,10 @@ public class Console : MonoBehaviour
 				m_input.textComponent.text = "";
 			}
 		}
+	}
+
+	public void LogMessage()
+	{
+		m_log.text += "\n" + Msg;
 	}
 }
