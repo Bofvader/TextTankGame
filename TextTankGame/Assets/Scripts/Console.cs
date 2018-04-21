@@ -19,11 +19,11 @@ public class Console : MonoBehaviour
 		"scan", "search", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
 		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
 		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
-		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", "" //move
+		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", "advance({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
 		"retreat({|0?[1-9]|[1-9][0-9]|})", //retreating
 		"retreat({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //retreatalt
 		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //moveAlt
-		"loot[0-9]", "check[0-9]" //loot
+		"loot([0-9])", "check([0-9])", "scavenging([0-9])" //loot
 	};
 
 	string m_prefix = "^(?isx)";
@@ -33,14 +33,21 @@ public class Console : MonoBehaviour
 
 	public static string Msg { get; set; }
 
+	private void Start()
+	{
+		m_input.ActivateInputField();
+	}
+
 	// Update is called once per frame
 	void Update()
 	{
-		Debug.Log("Updating");
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
-			m_log.text += "\n" + input;
+			m_log.text += "\n->" + input;
+			m_input.Select();
+			m_input.text = "";
+			m_input.ActivateInputField();
 
 			input = input.Trim();
 			input = input.Replace(" ", "");
@@ -50,6 +57,7 @@ public class Console : MonoBehaviour
 			Match match;
 
 			int index = 0;
+			bool matched = false;
 			foreach(string body in m_wordList)
 			{
 				string test = m_prefix;
@@ -58,6 +66,9 @@ public class Console : MonoBehaviour
 				match = Regex.Match(input, test);
 				if(match.Success)
 				{
+					Debug.Log(test);
+
+					matched = true;
 					if(index > 2)
 					{
 						m_quiting = false;
@@ -109,30 +120,40 @@ public class Console : MonoBehaviour
 							//call player.turn(match.groups[1]);
 							break;
 						case 20:
+						case 21:
 							m_log.text += "\nMoving " + match.Groups[1];
 							//call player.move(match.group[1], match.group[2]);
 							break;
-						case 21:
+						case 22:
 							m_log.text += "\nRetreating...";
 							//call player.retreat(match.Groups[1]);
 							break;
-						case 22:
+						case 23:
 							m_log.text += "\nRetreating..." + match.Groups[2];
 							//call player.retreat(match.Groups[1], match.Groups[2]);
 							break;
-						case 23:
+						case 24:
 							m_log.text += "\nMoving " + match.Groups[1] + " " + match.Groups[3];
 							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							break;
-						case 24:
 						case 25:
-
+						case 26:
+						case 27:
+							m_log.text += "\nScavenging...";
+							//call player.loot(match.Groups[1]);
 							break;
 						default:
 							m_log.text += "\nI'm sorry, I don't know what to do.";
 							break;
 					}
 				}
+
+				index++;
+			}
+
+			if(!matched)
+			{
+				m_log.text += "\nOrder not recognized.";
 			}
 		}
 	}
