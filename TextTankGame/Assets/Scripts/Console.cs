@@ -10,6 +10,9 @@ public class Console : MonoBehaviour
 	[SerializeField] Text m_log = null;
 	[SerializeField] InputField m_input = null;
 	[SerializeField] Player m_player = null;
+	[SerializeField] AudioClip m_blip = null;
+	[SerializeField] AudioClip m_return = null;
+	[SerializeField] int m_maxLineCount = 10;
 
 	string[] m_wordList =
 	{
@@ -29,13 +32,18 @@ public class Console : MonoBehaviour
 	string m_prefix = "^(?isx)";
 	string m_suffix = "$";
 
+	List<string> m_displayLog = new List<string>();
+
 	bool m_quiting = false;
+	AudioSource m_audio;
 
 	public static string Msg { get; set; }
 
 	private void Start()
 	{
 		m_input.ActivateInputField();
+		m_audio = gameObject.GetComponent<AudioSource>();
+		m_displayLog.Add("Would you like to play a game?");
 	}
 
 	// Update is called once per frame
@@ -44,7 +52,8 @@ public class Console : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
-			m_log.text += "\n->" + input;
+			m_displayLog.Add(input);
+
 			m_input.Select();
 			m_input.text = "";
 			m_input.ActivateInputField();
@@ -84,13 +93,13 @@ public class Console : MonoBehaviour
 							break;
 						case 4:
 						case 5:
-							m_log.text += "\nFiring...";
+							m_displayLog.Add("Firing...");
 							//call player.fire();
 							break;
 						case 6:
 						case 7:
 						case 8:
-							m_log.text += "\nFiring...were the sounds necessary?";
+							m_displayLog.Add("Firing...were the sounds necessary?");
 							//call player.fire();
 							break;
 						case 9:
@@ -100,80 +109,114 @@ public class Console : MonoBehaviour
 						case 13:
 						case 14:
 						case 15:
-							m_log.text += "\nScanning...";
+							m_displayLog.Add("Scanning...");
 							//call player.scan();
 							break;
 						case 16:
-							m_log.text += "\n...";
+							m_displayLog.Add("...");
 							//call player.angle(match.groups[1]);
 							break;
 						case 17:
-							m_log.text += "\n...";
+							m_displayLog.Add("...");
 							//call player.turn(match.groups[1]);
 							break;
 						case 18:
-							m_log.text += "\nAye sir";
+							m_displayLog.Add("Aye sir");
 							//call player.angle(match.groups[1]);
 							break;
 						case 19:
-							m_log.text += "\nAye sir";
+							m_displayLog.Add("Aye sir");
 							//call player.turn(match.groups[1]);
 							break;
 						case 20:
 						case 21:
-							m_log.text += "\nMoving " + match.Groups[1];
+							m_displayLog.Add("Moving " + match.Groups[1]);
 							//call player.move(match.group[1], match.group[2]);
 							break;
 						case 22:
-							m_log.text += "\nRetreating...";
+							m_displayLog.Add("Retreating...");
 							//call player.retreat(match.Groups[1]);
 							break;
 						case 23:
-							m_log.text += "\nRetreating..." + match.Groups[2];
+							m_displayLog.Add("Retreating..." + match.Groups[2]);
 							//call player.retreat(match.Groups[1], match.Groups[2]);
 							break;
 						case 24:
-							m_log.text += "\nMoving " + match.Groups[1] + " " + match.Groups[3];
+							m_displayLog.Add("Moving " + match.Groups[1] + " " + match.Groups[3]);
 							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							break;
 						case 25:
 						case 26:
 						case 27:
-							m_log.text += "\nScavenging...";
+							m_displayLog.Add("Scavenging...");
 							//call player.loot(match.Groups[1]);
 							break;
 						default:
-							m_log.text += "\nI'm sorry, I don't know what to do.";
+							m_displayLog.Add("I'm sorry, I don't know what to do.");
 							break;
 					}
 				}
 
-				index++;
+				--index;
 			}
 
 			if(!matched)
 			{
-				m_log.text += "\nOrder not recognized.";
+				m_displayLog.Add("Order not recognized.");
 			}
 		}
+	}
+
+	private void FixedUpdate()
+	{
+		PrintToConsole();
 	}
 
 	void Quit()
 	{
 		if(m_quiting)
 		{
-			m_log.text += "\nGot it, the conflict is over.";
+			m_displayLog.Add("Got it, the conflict is over.");
 			//Quit game;
 		}
 		else
 		{
 			m_quiting = true;
-			m_log.text += "\nAre we really leaving?";
+			m_displayLog.Add("Are we really leaving?");
 		}
 	}
 
 	public void LogMessage()
 	{
-		m_log.text += "\n" + Msg;
+		m_displayLog.Add(Msg);
+	}
+
+	void PrintToConsole()
+	{
+		string log = "";
+		for(int i=m_displayLog.Count - 1;i >= m_displayLog.Count - 1 - m_maxLineCount; --i)
+		{
+			log = m_displayLog[i] + "\n" + log;
+		}
+
+		m_log.text = log;
+	}
+
+	public void PlaBlipSound()
+	{
+		if(m_audio)
+		{
+			m_audio.clip = m_blip;
+			m_audio.Play();
+		}
+	}
+
+	public void PlayReturnSound()
+	{
+		if (m_audio)
+		{
+			m_audio.clip = m_return;
+			m_audio.Play();
+		}
 	}
 }
