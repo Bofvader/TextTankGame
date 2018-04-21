@@ -11,11 +11,25 @@ public class Console : MonoBehaviour
 	[SerializeField] InputField m_input = null;
 	[SerializeField] Player m_player = null;
 
-	string m_fireString = @"^(?isx)fire&";
-	string m_scanString = @"^(?isx)scan&";
-	string m_aimString = @"^(?isx)Angle(?<amount>{|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})$";
-	string m_turnString = @"^(?isx)turn(?<amount>{|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})$";
-	string m_moveString = @"^(?isx)move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?$";
+	string[] m_wordList =
+	{
+		"quit", "leave", "fullretreat", "surrender", //quit
+		"fire", "shoot", //fire
+		"bang", "pow", "pewpew", //fireAlt
+		"scan", "search", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
+		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
+		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
+		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", "" //move
+		"retreat({|0?[1-9]|[1-9][0-9]|})", //retreating
+		"retreat({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //retreatalt
+		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //moveAlt
+		"loot[0-9]", "check[0-9]" //loot
+	};
+
+	string m_prefix = "^(?isx)";
+	string m_suffix = "$";
+
+	bool m_quiting = false;
 
 	public static string Msg { get; set; }
 
@@ -26,76 +40,114 @@ public class Console : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
+			m_log.text += "\n" + input;
+
 			input = input.Trim();
+			input = input.Replace(" ", "");
+			input = input.Replace("'", "");
+			input = input.Replace("?", "");
 
-			Match match = Regex.Match(input, m_scanString);
-			if (match.Success)
+			Match match;
+
+			int index = 0;
+			foreach(string body in m_wordList)
 			{
-				input += "\nScanning...";
-				//call player.scan
-				//input += Msg;
-				Debug.Log("Scanning");
-			}
-			else
-			{
-				match = Regex.Match(input, m_fireString);
-				if (match.Success)
+				string test = m_prefix;
+				test += body + m_suffix;
+
+				match = Regex.Match(input, test);
+				if(match.Success)
 				{
-					if (m_player.ShotReady)
+					if(index > 2)
 					{
-						input += "\nFiring...";
-						//call player.fire
-						//input += Msg;
-						Debug.Log("Firing");
+						m_quiting = false;
 					}
-					else
+
+					switch(index)
 					{
-						input += "\nCurrently reloading.";
+						case 0:
+						case 1:
+						case 2:
+						case 3:
+							Quit();
+							break;
+						case 4:
+						case 5:
+							m_log.text += "\nFiring...";
+							//call player.fire();
+							break;
+						case 6:
+						case 7:
+						case 8:
+							m_log.text += "\nFiring...were the sounds necessary?";
+							//call player.fire();
+							break;
+						case 9:
+						case 10:
+						case 11:
+						case 12:
+						case 13:
+						case 14:
+						case 15:
+							m_log.text += "\nScanning...";
+							//call player.scan();
+							break;
+						case 16:
+							m_log.text += "\n...";
+							//call player.angle(match.groups[1]);
+							break;
+						case 17:
+							m_log.text += "\n...";
+							//call player.turn(match.groups[1]);
+							break;
+						case 18:
+							m_log.text += "\nAye sir";
+							//call player.angle(match.groups[1]);
+							break;
+						case 19:
+							m_log.text += "\nAye sir";
+							//call player.turn(match.groups[1]);
+							break;
+						case 20:
+							m_log.text += "\nMoving " + match.Groups[1];
+							//call player.move(match.group[1], match.group[2]);
+							break;
+						case 21:
+							m_log.text += "\nRetreating...";
+							//call player.retreat(match.Groups[1]);
+							break;
+						case 22:
+							m_log.text += "\nRetreating..." + match.Groups[2];
+							//call player.retreat(match.Groups[1], match.Groups[2]);
+							break;
+						case 23:
+							m_log.text += "\nMoving " + match.Groups[1] + " " + match.Groups[3];
+							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
+							break;
+						case 24:
+						case 25:
+
+							break;
+						default:
+							m_log.text += "\nI'm sorry, I don't know what to do.";
+							break;
 					}
 				}
-				else
-				{
-					match = Regex.Match(input, m_aimString);
-					if (match.Success)
-					{
-						//call player.angle(match.Groups[1]);
-						input += "...";
-					}
-					else
-					{
-						match = Regex.Match(input, m_turnString);
-						if (match.Success)
-						{
-							//call player.turn(match.Groups[1]);
-							input += "...";
-						}
-						else
-						{
-							match = Regex.Match(input, m_moveString);
-							if (match.Success)
-							{
-								if (match.Groups.Count == 5)
-								{
-									//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
-									//input += Msg;
-								}
-								else
-								{
-									//call player.move(match.Groups[1], match.Groups[2]);
-									//input += Msg;
-								}
-							}
-							else
-							{
-								input += ", order not recongnixed";
-							}
-						}
-					}
-				}
-
-				m_log.text += "\n" + input;
-				m_input.textComponent.text = "";
 			}
+		}
+	}
+
+	void Quit()
+	{
+		if(m_quiting)
+		{
+			m_log.text += "\nGot it, the conflict is over.";
+			//Quit game;
+		}
+		else
+		{
+			m_quiting = true;
+			m_log.text += "\nAre we really leaving?";
 		}
 	}
 
