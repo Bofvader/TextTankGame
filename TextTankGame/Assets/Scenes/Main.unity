@@ -554,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_log: {fileID: 253615133}
-  m_input: {fileID: 595491505}
+  m_input: {fileID: 1849963985}
 --- !u!1 &1402118729
 GameObject:
   m_ObjectHideFlags: 0
@@ -719,7 +719,7 @@ MonoBehaviour:
   m_LineType: 0
   m_HideMobileInput: 0
   m_CharacterValidation: 0
-  m_CharacterLimit: 20
+  m_CharacterLimit: 21
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
