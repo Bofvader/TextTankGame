@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game : Singleton<Game> {
-
-    public GameObject player;
-    public GameObject ai;
-    public Tank tankInfo;
+public class AI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
