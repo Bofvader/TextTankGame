@@ -32,7 +32,7 @@ public class Console : MonoBehaviour
 	string m_prefix = "^(?isx)";
 	string m_suffix = "$";
 
-	List<string> m_displayLog = new List<string>();
+	string[] m_displayLog;
 
 	bool m_quiting = false;
 	AudioSource m_audio;
@@ -43,7 +43,12 @@ public class Console : MonoBehaviour
 	{
 		m_input.ActivateInputField();
 		m_audio = gameObject.GetComponent<AudioSource>();
-		m_displayLog.Add("Would you like to play a game?");
+		m_displayLog = new string[m_maxLineCount];
+		m_displayLog[m_maxLineCount - 1] = "Would you like to play a game?";
+
+		for (int i = 0; i < m_maxLineCount - 1; i++) {
+			m_displayLog[i] = "";
+		}
 	}
 
 	// Update is called once per frame
@@ -52,7 +57,7 @@ public class Console : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
-			m_displayLog.Add(input);
+			AddToLog(input);
 
 			m_input.Select();
 			m_input.text = "";
@@ -93,13 +98,13 @@ public class Console : MonoBehaviour
 							break;
 						case 4:
 						case 5:
-							m_displayLog.Add("Firing...");
+							AddToLog("Firing...");
 							//call player.fire();
 							break;
 						case 6:
 						case 7:
 						case 8:
-							m_displayLog.Add("Firing...were the sounds necessary?");
+							AddToLog("Firing...were the sounds necessary?");
 							//call player.fire();
 							break;
 						case 9:
@@ -109,60 +114,60 @@ public class Console : MonoBehaviour
 						case 13:
 						case 14:
 						case 15:
-							m_displayLog.Add("Scanning...");
+							AddToLog("Scanning...");
 							//call player.scan();
 							break;
 						case 16:
-							m_displayLog.Add("...");
+							AddToLog("...");
 							//call player.angle(match.groups[1]);
 							break;
 						case 17:
-							m_displayLog.Add("...");
+							AddToLog("...");
 							//call player.turn(match.groups[1]);
 							break;
 						case 18:
-							m_displayLog.Add("Aye sir");
+							AddToLog("Aye sir");
 							//call player.angle(match.groups[1]);
 							break;
 						case 19:
-							m_displayLog.Add("Aye sir");
+							AddToLog("Aye sir");
 							//call player.turn(match.groups[1]);
 							break;
 						case 20:
 						case 21:
-							m_displayLog.Add("Moving " + match.Groups[1]);
+							AddToLog("Moving " + match.Groups[1]);
 							//call player.move(match.group[1], match.group[2]);
 							break;
 						case 22:
-							m_displayLog.Add("Retreating...");
+							AddToLog("Retreating...");
 							//call player.retreat(match.Groups[1]);
 							break;
 						case 23:
-							m_displayLog.Add("Retreating..." + match.Groups[2]);
+							AddToLog("Retreating..." + match.Groups[2]);
 							//call player.retreat(match.Groups[1], match.Groups[2]);
 							break;
 						case 24:
-							m_displayLog.Add("Moving " + match.Groups[1] + " " + match.Groups[3]);
+							AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
 							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							break;
 						case 25:
 						case 26:
 						case 27:
-							m_displayLog.Add("Scavenging...");
+							AddToLog("Scavenging...");
 							//call player.loot(match.Groups[1]);
 							break;
 						default:
-							m_displayLog.Add("I'm sorry, I don't know what to do.");
+							AddToLog("I'm sorry, I don't know what to do.");
 							break;
 					}
 				}
 
-				--index;
+				++index;
 			}
 
 			if(!matched)
 			{
-				m_displayLog.Add("Order not recognized.");
+				AddToLog("Order not recognized.");
 			}
 		}
 	}
@@ -176,27 +181,47 @@ public class Console : MonoBehaviour
 	{
 		if(m_quiting)
 		{
-			m_displayLog.Add("Got it, the conflict is over.");
+			AddToLog("Got it, the conflict is over.");
 			//Quit game;
 		}
 		else
 		{
 			m_quiting = true;
-			m_displayLog.Add("Are we really leaving?");
+			AddToLog("Are we really leaving?");
 		}
 	}
 
 	public void LogMessage()
 	{
-		m_displayLog.Add(Msg);
+		AddToLog(Msg);
+	}
+
+	void AddToLog(string addition)
+	{
+		string[] other = m_displayLog;
+		for(int i=0;i<other.Length -1;i++)
+		{
+			m_displayLog[i] = other[i + 1];
+		}
+
+		m_displayLog[m_maxLineCount - 1] = addition;
 	}
 
 	void PrintToConsole()
 	{
 		string log = "";
-		for(int i=m_displayLog.Count - 1;i >= m_displayLog.Count - 1 - m_maxLineCount; --i)
+
+		bool start = true;
+		foreach(string line in m_displayLog)
 		{
-			log = m_displayLog[i] + "\n" + log;
+			if (start) {
+				log += line;
+				start = false;
+			}
+			else
+			{
+				log += "\n" + line;
+			}
 		}
 
 		m_log.text = log;
