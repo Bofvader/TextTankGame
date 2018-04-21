@@ -48,4 +48,18 @@ public class Tank : MonoBehaviour
 	{
 		m_speed = 0.0f;
 	}
+
+	public bool Colliding(GameObject other)
+	{
+		float rawDistance = (other.transform.position - transform.position).magnitude;
+
+		float walls = m_tankSize;
+		Tank t = other.GetComponent<Tank>();
+		if(t)
+		{
+			walls += t.m_tankSize;
+		}
+
+		return walls >= rawDistance;
+	}
 }
