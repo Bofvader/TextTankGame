@@ -7,17 +7,18 @@ public class Tank : NetworkBehaviour
 {
 	[SerializeField] Vector3 m_spawnPoint;
 	[SerializeField] protected float m_maxSpeed = 5.0f;
-	[SerializeField] protected float m_shotTime = 1.0f;
+	[SerializeField] float m_shotTime = 1.0f;
+    [SerializeField] float m_tankSize = 1.0f;
+    [SerializeField] float m_hitPoints = 100;
+    [SerializeField] float m_damage = 40;
+	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 
 	protected float m_speed = 0.0f;
-	float m_shotTimer = 0.0f;
+	protected float m_shotTimer = 0.0f;
+	protected float m_tiltAngle = 0.0f;
+	protected float m_turnAngle = 0.0f;
 
-    public float m_tankSize = 1.0f;
-    public float m_hitPoints = 100;
-    public float m_damage = 40;
     [SyncVar] public bool m_isAlive = false;
-
-	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 
 	void FixedUpdate()
     {

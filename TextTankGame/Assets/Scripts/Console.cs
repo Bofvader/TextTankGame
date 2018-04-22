@@ -172,8 +172,6 @@ public class Console : MonoBehaviour
 				match = Regex.Match(input, test);
 				if (match.Success)
 				{
-					Debug.Log(test);
-
 					matched = true;
 					if (index > 4)
 					{
