@@ -15,39 +15,42 @@ public class Spawner : MonoBehaviour
 
 	void Update()
 	{
-		int m_population = 0;
-		foreach (Tank t in m_spawns)
+		if (m_isSpawning)
 		{
-
-			if (t.Alive)
+			int m_population = 0;
+			foreach (Tank t in m_spawns)
 			{
-				++m_population;
-			}
-		}
 
-		if (m_spawnTimer >= m_spawnSpeed)
-		{
-			if (m_population < m_maxPopulation)
-			{
-				foreach (Tank t in m_spawns)
+				if (t.Alive)
 				{
-					if (!t.Alive)
+					++m_population;
+				}
+			}
+
+			if (m_spawnTimer >= m_spawnSpeed)
+			{
+				if (m_population < m_maxPopulation)
+				{
+					foreach (Tank t in m_spawns)
 					{
-						t.Spawn();
-						m_spawnTimer = 0.0f;
-						++m_amount;
+						if (!t.Alive)
+						{
+							t.Spawn();
+							m_spawnTimer = 0.0f;
+							++m_amount;
+						}
 					}
 				}
 			}
-		}
-		else
-		{
-			m_spawnTimer += Time.deltaTime;
-		}
+			else
+			{
+				m_spawnTimer += Time.deltaTime;
+			}
 
-		if(m_amount >= m_spawnAmount)
-		{
-			SpawnerOff();
+			if (m_amount >= m_spawnAmount)
+			{
+				SpawnerOff();
+			}
 		}
 	}
 

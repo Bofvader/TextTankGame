@@ -42,6 +42,11 @@ public class AI : Tank
 					m_path = Meander();
 					m_updateTimer = 0.0f;
 				}
+
+				if(m_updateTimer < m_updateTime)
+				{
+					m_updateTimer += Time.deltaTime;
+				}
 			}
 		}
 	}

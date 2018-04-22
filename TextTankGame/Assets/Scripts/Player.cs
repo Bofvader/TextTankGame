@@ -15,27 +15,29 @@ public class Player : Tank
         Tank enemy = result.GetComponent<Tank>();
         float distance = (result.transform.position - transform.position).magnitude;
 
-        if (enemy)
+		string msg = "";
+
+
+		if (enemy)
         {
-            Console.Msg = "You fired a shell directly into the opposing tank!";
-            m_console.LogMessage();
+            m_console.LogMessage("You fired a shell directly into the opposing tank!");
         }
         else
         {
             if (distance < m_closeHit)
             {
-                Console.Msg = "Your shot was close, but you only grazed their tank.";
+				msg = "Your shot was close, but you only grazed their tank.";
 
             }
             else if (distance < m_inVicinity)
             {
-                Console.Msg = "You've got them shacking in fear, but no real damage was done".;
+				msg = "You've got them shacking in fear, but no real damage was done";
             }
             else
             {
-                Console.Msg = "Where were you aiming? There's no tank over there!";
+               msg = "Where were you aiming? There's no tank over there!";
             }
-            m_console.LogMessage();
+            m_console.LogMessage(msg);
         }
 
         return result;
@@ -43,29 +45,26 @@ public class Player : Tank
 
     public override void Spawn()
     {
-        Console.Msg = "Get those fingers preped and ready! An enemy tank has appeared!";
-        m_console.LogMessage();
         base.Spawn();
+        m_console.LogMessage("Attention crew! Time to get to work.");
     }
 
     public override void Died()
     {
-        Console.Msg = "What kind of tank commander are you?!? We're more like swiss cheese than a tank.";
-        m_console.LogMessage();
         base.Died();
+        m_console.LogMessage("What kind of tank commander are you?!? We're more like swiss cheese than a tank.");
     }
 
     public override void Hit(float damage)
     {
-        Console.Msg = "We've been hit! Take them down quickly";
-        m_console.LogMessage();
         base.Hit(damage);
+        m_console.LogMessage("We've been hit! Take them down quickly");
     }
 
     public override void Collision()
     {
-        Console.Msg = "You've slammed into something! You're lucky we don't have any new holes!";
         base.Collision();
+       m_console.LogMessage("You've slammed into something! You're lucky we don't have any new holes!");
     }
 
     public void Loot(int deadTankNum)

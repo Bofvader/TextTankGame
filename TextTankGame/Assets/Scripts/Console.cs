@@ -41,8 +41,6 @@ public class Console : MonoBehaviour
 	bool m_quiting = false;
 	AudioSource m_audio;
 
-	public static string Msg { get; set; }
-
 	private void Start()
 	{
 		m_input.ActivateInputField();
@@ -304,9 +302,9 @@ public class Console : MonoBehaviour
 		}
 	}
 
-	public void LogMessage()
+	public void LogMessage(string msg)
 	{
-		AddToLog(Msg);
+		AddToLog(msg);
 	}
 
 	void AddToLog(string addition)
