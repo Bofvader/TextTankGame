@@ -21,7 +21,7 @@ public class Console : MonoBehaviour
 		"quit", "leave", "fullretreat", "surrender", //quit
 		"fire", "shoot", //fire
 		"bang", "pow", "pewpew", //fireAlt
-		"scan", "search", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
+		"scan", "search", "radar", "boopboop", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
 		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
 		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
 		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", "advance({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
@@ -207,11 +207,13 @@ public class Console : MonoBehaviour
 							break;
 						case 9: //scan
 						case 10: //search
-						case 11: //lookaround
-						case 12: //whatdoyousee
-						case 13: //whatsaroundus
-						case 14: //tellmethesituation
-						case 15: //whatsthesituation
+                        case 11: //radar
+                        case 12: //boopboop
+						case 13: //lookaround
+						case 14: //whatdoyousee
+						case 15: //whatsaroundus
+						case 16: //tellmethesituation
+						case 17: //whatsthesituation
 							if (m_player.Alive)
 							{
 
@@ -220,7 +222,7 @@ public class Console : MonoBehaviour
 								//call player.scan();
 							}
 							break;
-						case 16: //aim
+						case 18: //aim
 							if (m_player.Alive)
 							{
 
@@ -229,7 +231,7 @@ public class Console : MonoBehaviour
 								//call player.angle(match.groups[1]);
 							}
 							break;
-						case 17: //turn
+						case 19: //turn
 							if (m_player.Alive)
 							{
 
@@ -238,7 +240,7 @@ public class Console : MonoBehaviour
 								//call player.turn(match.groups[1]);
 							}
 							break;
-						case 18: //aimalt
+						case 20: //aimalt
 							if (m_player.Alive)
 							{
 
@@ -247,7 +249,7 @@ public class Console : MonoBehaviour
 								//call player.angle(match.groups[1]);
 							}
 							break;
-						case 19: //turnalt
+						case 21: //turnalt
 							if (m_player.Alive)
 							{
 
@@ -256,8 +258,8 @@ public class Console : MonoBehaviour
 								//call player.turn(match.groups[1]);
 							}
 							break;
-						case 20: //move
-						case 21: //advance
+						case 22: //move
+						case 23: //advance
 							if (m_player.Alive)
 							{
 
@@ -266,7 +268,7 @@ public class Console : MonoBehaviour
 								//call player.move(match.group[1], match.group[2]);
 							}
 							break;
-						case 22: //retreat
+						case 24: //retreat
 							if (m_player.Alive)
 							{
 
@@ -275,7 +277,7 @@ public class Console : MonoBehaviour
 								//call player.retreat(match.Groups[1]);
 							}
 							break;
-						case 23: //retreatalt
+						case 25: //retreatalt
 							if (m_player.Alive)
 							{
 
@@ -284,7 +286,7 @@ public class Console : MonoBehaviour
 								//call player.retreat(match.Groups[1], match.Groups[2]);
 							}
 							break;
-						case 24: //movealt
+						case 26: //movealt
 							if (m_player.Alive)
 							{
 
@@ -293,9 +295,9 @@ public class Console : MonoBehaviour
 								//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							}
 							break;
-						case 25: //loot
-						case 26: //check
-						case 27: //scavenge
+						case 27: //loot
+						case 28: //check
+						case 29: //scavenge
 							if (m_player.Alive)
 							{
 
