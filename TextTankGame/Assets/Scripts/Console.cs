@@ -208,45 +208,55 @@ public class Console : MonoBehaviour
 						case 14: //tellmethesituation
 						case 15: //whatsthesituation
 							AddToLog("Scanning...");
+                            m_player.Scan();
 							//call player.scan();
 							break;
 						case 16: //aim
 							AddToLog("...");
+                            m_player.Angle(int.Parse(match.Groups[1].Value));
 							//call player.angle(match.groups[1]);
 							break;
 						case 17: //turn
 							AddToLog("...");
+                            m_player.Turn(int.Parse(match.Groups[1].Value));
 							//call player.turn(match.groups[1]);
 							break;
 						case 18: //aimalt
 							AddToLog("Aye sir");
+                            m_player.Angle(int.Parse(match.Groups[1].Value));
 							//call player.angle(match.groups[1]);
 							break;
 						case 19: //turnalt
 							AddToLog("Aye sir");
+                            m_player.Turn(int.Parse(match.Groups[1].Value));
 							//call player.turn(match.groups[1]);
 							break;
 						case 20: //move
 						case 21: //advance
 							AddToLog("Moving " + match.Groups[1]);
+                            m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
 							//call player.move(match.group[1], match.group[2]);
 							break;
 						case 22: //retreat
 							AddToLog("Retreating...");
+                            m_player.Retreat(int.Parse(match.Groups[1].Value));
 							//call player.retreat(match.Groups[1]);
 							break;
 						case 23: //retreatalt
 							AddToLog("Retreating..." + match.Groups[2]);
+                            m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
 							//call player.retreat(match.Groups[1], match.Groups[2]);
 							break;
 						case 24: //movealt
 							AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
+                            m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
 							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							break;
 						case 25: //loot
 						case 26: //check
 						case 27: //scavenge
 							AddToLog("Scavenging...");
+                            m_player.Loot(int.Parse(match.Groups[1].Value));
 							//call player.loot(match.Groups[1]);
 							break;
 						default:
