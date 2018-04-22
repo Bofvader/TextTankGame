@@ -56,16 +56,33 @@ public class Tank : MonoBehaviour
 		//Play death noise
 	}
 
-	public virtual bool Fire()
+	public virtual GameObject Fire()
 	{
-		bool hit = false;
+		GameObject hit = null;
 
 		if (ShotReady)
 		{
 			float distance = ((m_projectileSpeed * m_projectileSpeed) * Mathf.Sin(2 * m_tiltAngle)) / Game.Instance.Gravity;
-			GameObject[] gos = Game.Instance.GetObjectsInRange(distance);
+			GameObject[] gos = Game.Instance.GetObjectsInRange(this.gameObject, distance, "Tank");
 			
+			foreach(GameObject go in gos)
+			{
+				Vector3 difference = go.transform.position - transform.position;
+				float smallDistance = difference.magnitude;
 
+				if (smallDistance == distance)
+				{
+					Vector3 north = Vector3.forward * smallDistance;
+					Vector3 offset = north - difference;
+					float test = offset.magnitude;
+
+					if (test <= m_tankSize)
+					{
+						hit = go;
+						break;
+					}
+				}
+			}
 			  
 		}
 
