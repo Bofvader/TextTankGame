@@ -60,7 +60,7 @@ public class Player : Tank
 
     public override void Collision()
     {
-        m_console.LogMessage("You've slammed into something! You're lucky we don't have any new holes!");
+        m_console.LogMessage("You've slammed into something! It must be another tank, shoot them!");
         base.Collision();
     }
 
@@ -123,17 +123,19 @@ public class Player : Tank
         {
             if (speed.CompareTo("halftime") == 0)
             {
-                m_velocity *= 0.5f;
+                m_velocity /= 2.0f;
+                m_travelTime *= 2.0f;
 
             }
             else if (speed.CompareTo("doubletime") == 0)
             {
                 m_velocity *= 2.0f;
-
+                m_travelTime /= 2.0f;
             }
             else if (speed.CompareTo("tripletime") == 0)
             {
                 m_velocity *= 3.0f;
+                m_travelTime /= 3.0f;
             }
         }
     }
@@ -181,15 +183,18 @@ public class Player : Tank
         {
             if (speed.CompareTo("halftime") == 0)
             {
-                m_velocity *= 0.5f;
+                m_velocity /= 2.0f;
+                m_travelTime *= 2.0f;
 
             } else if(speed.CompareTo("doubletime") == 0)
             {
                 m_velocity *= 2.0f;
+                m_travelTime /= 2.0f;
 
             } else if(speed.CompareTo("tripletime") == 0)
             {
                 m_velocity *= 3.0f;
+                m_travelTime /= 3.0f;
             }
         }
     }
@@ -286,10 +291,14 @@ public class Player : Tank
     public void Turn(int angle)
     {
         m_turnAngle = angle;
+
+        m_console.LogMessage("We've turned our tank to " + angle + "degrees");
     }
 
     public void Angle(int angle)
     {
         m_tiltAngle = angle;
+
+        m_console.LogMessage("We've rotated the tank's barrel to " + angle + "degrees");
     }
 }
