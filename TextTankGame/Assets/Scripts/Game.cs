@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class Game : Singleton<Game>
 {
@@ -12,7 +11,6 @@ public class Game : Singleton<Game>
 
 	public float Gravity { get { return m_gravity; } }
 	public float Scale { get { return m_scale; } }
-    public NetworkManager networkManager;
 
 	void Update()
 	{
