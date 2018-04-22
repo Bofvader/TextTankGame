@@ -18,22 +18,22 @@ public class Player : Tank
 
         if (enemy)
         {
-            m_console.LogMessage("You fired a shell directly into the opposing tank!");
+            m_console.LogMessage("--You fired a shell directly into the opposing tank!");
         }
         else
         {
             if (distance < m_closeHit)
             {
-                m_console.LogMessage("Your shot was close, but you only grazed their tank.");
+                m_console.LogMessage("--Your shot was close, but you only grazed their tank.");
 
             }
             else if (distance < m_inVicinity)
             {
-                m_console.LogMessage("You've got them shacking in fear, but no real damage was done.");
+                m_console.LogMessage("--You've got them shacking in fear, but no real damage was done.");
             }
             else
             {
-                m_console.LogMessage("Where were you aiming? There's no tank over there!");
+                m_console.LogMessage("--Where were you aiming? There's no tank over there!");
             }
         }
 
@@ -42,25 +42,25 @@ public class Player : Tank
 
     public override void Spawn()
     {
-        m_console.LogMessage("Attention! Time to get to work, remove the enemy armor.");
+        m_console.LogMessage("-Attention! Time for work, destroy enemy armor.");
         base.Spawn();
     }
 
     public override void Died()
     {
-        m_console.LogMessage("What kind of tank commander are you?!? We're more like swiss cheese than a tank.");
+        m_console.LogMessage("-Happy commander!? We're more like swiss cheese than a tank.");
         base.Died();
     }
 
     public override void Hit(float damage)
     {
-        m_console.LogMessage("We've been hit! Take them down quickly");
+        m_console.LogMessage("-We've been hit! Take them down quickly");
         base.Hit(damage);
     }
 
     public override void Collision()
     {
-        m_console.LogMessage("You've slammed into something! You're lucky we don't have any new holes!");
+        m_console.LogMessage("-You've slammed into something! You're lucky we don't have any new holes!");
         base.Collision();
     }
 
@@ -99,11 +99,11 @@ public class Player : Tank
             {
                 if (tank.Alive)
                 {
-                    message = "An enemy tank was spotted to the ";
+                    message = "-An enemy tank was spotted to the ";
                 }
                 else
                 {
-                    message = "Smoldering tank remains have been spotted to the ";
+                    message = "-Smoldering tank remains have been spotted to the ";
                 }
 
                 Vector3 distance = tank.transform.position - transform.position;

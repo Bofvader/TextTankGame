@@ -139,7 +139,7 @@ public class Console : MonoBehaviour
 				AddToLog("2 - Exit");
 				break;
 			case 1:
-				AddToLog("These words like break bones.");
+				AddToLog("--These words will break bones.--");
 				Game.Instance.StartGame();
 				break;
 		}
@@ -150,7 +150,7 @@ public class Console : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
-			AddToLog(input);
+			AddToLog(">" + input);
 
 			m_input.Select();
 			m_input.text = "";
@@ -191,7 +191,7 @@ public class Console : MonoBehaviour
 						case 5: //shoot
 							if (m_player.Alive)
 							{
-								AddToLog("Firing...");
+								AddToLog("-Firing...");
 								m_player.Fire();
 								//call player.fire();
 							}
@@ -202,7 +202,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Firing...were the sounds necessary?");
+								AddToLog("-Firing...were the sounds necessary?");
 								m_player.Fire();
 								//call player.fire();
 							}
@@ -219,7 +219,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Scanning...");
+								AddToLog("-Scanning...");
 								m_player.Scan();
 								//call player.scan();
 							}
@@ -228,7 +228,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("...");
+								AddToLog("-Adjusting...");
 								m_player.Angle(int.Parse(match.Groups[1].Value));
 								//call player.angle(match.groups[1]);
 							}
@@ -237,7 +237,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("...");
+								AddToLog("-Shifting...");
 								m_player.Turn(int.Parse(match.Groups[1].Value));
 								//call player.turn(match.groups[1]);
 							}
@@ -246,7 +246,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Aye sir");
+								AddToLog("-Aye sir");
 								m_player.Angle(int.Parse(match.Groups[1].Value));
 								//call player.angle(match.groups[1]);
 							}
@@ -255,7 +255,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Aye sir");
+								AddToLog("-Right away sir");
 								m_player.Turn(int.Parse(match.Groups[1].Value));
 								//call player.turn(match.groups[1]);
 							}
@@ -264,7 +264,7 @@ public class Console : MonoBehaviour
                             if (m_player.Alive)
                             {
 
-                                AddToLog("Moving " + match.Groups[1]);
+                                AddToLog("-Moving " + match.Groups[1]);
                                 m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
                                 //call player.move(match.group[1], match.group[2]);
                             }
@@ -273,7 +273,7 @@ public class Console : MonoBehaviour
                         case 24: //forward - change
                             if (m_player.Alive)
                             { 
-                                AddToLog("Advancing");
+                                AddToLog("-Advancing");
                                 m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
                                 //call player.move(match.group[1], match.group[2]);
                             }
@@ -282,7 +282,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Retreating...");
+								AddToLog("-Retreating...");
 								m_player.Retreat(int.Parse(match.Groups[1].Value));
 								//call player.retreat(match.Groups[1]);
 							}
@@ -291,7 +291,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Retreating..." + match.Groups[2]);
+								AddToLog("-Retreating..." + match.Groups[2]);
 								m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
 								//call player.retreat(match.Groups[1], match.Groups[2]);
 							}
@@ -300,7 +300,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
+								AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
 								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
 								//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							}
@@ -311,7 +311,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 
-								AddToLog("Scavenging...");
+								AddToLog("-Scavenging...");
 								m_player.Loot(int.Parse(match.Groups[1].Value));
 								//call player.loot(match.Groups[1]);
 							}
@@ -324,7 +324,7 @@ public class Console : MonoBehaviour
                         case 36: //how
                         case 37: //question 
                             //basic commmands: quit, fire, scan, angle ###, turn ###, move direction distance, retreat distance, loot #
-                            AddToLog("Basic commands:");
+                            AddToLog("-Basic commands:");
                             AddToLog("fire - fire gun at current angle");
                             AddToLog("scan - search for other tanks");
                             AddToLog("angle ### - move barrel to given angle");
@@ -335,7 +335,7 @@ public class Console : MonoBehaviour
                             AddToLog("quit - quit game");
                             break;
 						default:
-							AddToLog("I'm sorry, I don't know what to do.");
+							AddToLog("-I'm sorry, I don't know what to do.");
 							break;
 					}
 				}
@@ -345,7 +345,7 @@ public class Console : MonoBehaviour
 
 			if (!matched)
 			{
-				AddToLog("Order not recognized.");
+				AddToLog("-Order not recognized.");
 			}
 		}
 
@@ -368,14 +368,14 @@ public class Console : MonoBehaviour
 	{
 		if (m_quiting)
 		{
-			AddToLog("Got it, the conflict is over.");
+			AddToLog("-Got it, the conflict is over.");
 			Game.Instance.QuiteToMenu();
 			StartCoroutine(Loading(0));
 		}
 		else
 		{
 			m_quiting = true;
-			AddToLog("Are we really leaving?");
+			AddToLog("-Are we really leaving?");
 		}
 	}
 
