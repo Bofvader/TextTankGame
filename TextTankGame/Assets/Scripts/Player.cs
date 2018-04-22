@@ -7,6 +7,7 @@ public class Player : Tank
     [SerializeField] Console m_console = null;
     [SerializeField] float m_closeHit = 1.0f;
     [SerializeField] float m_inVicinity = 3.0f;
+    [SerializeField] float m_scanRange = 100.0f;
 
 	public override GameObject Fire()
 	{
@@ -15,10 +16,7 @@ public class Player : Tank
         Tank enemy = result.GetComponent<Tank>();
         float distance = (result.transform.position - transform.position).magnitude;
 
-		string msg = "";
-
-
-		if (enemy)
+        if (enemy)
         {
             m_console.LogMessage("You fired a shell directly into the opposing tank!");
         }
@@ -26,18 +24,17 @@ public class Player : Tank
         {
             if (distance < m_closeHit)
             {
-				msg = "Your shot was close, but you only grazed their tank.";
+                m_console.LogMessage("Your shot was close, but you only grazed their tank.");
 
             }
             else if (distance < m_inVicinity)
             {
-				msg = "You've got them shacking in fear, but no real damage was done";
+                m_console.LogMessage("You've got them shacking in fear, but no real damage was done.");
             }
             else
             {
-               msg = "Where were you aiming? There's no tank over there!";
+                m_console.LogMessage("Where were you aiming? There's no tank over there!");
             }
-            m_console.LogMessage(msg);
         }
 
         return result;
@@ -45,26 +42,26 @@ public class Player : Tank
 
     public override void Spawn()
     {
+        m_console.LogMessage("Get those fingers preped and ready! An enemy tank has appeared!");
         base.Spawn();
-        m_console.LogMessage("Attention crew! Time to get to work.");
     }
 
     public override void Died()
     {
-        base.Died();
         m_console.LogMessage("What kind of tank commander are you?!? We're more like swiss cheese than a tank.");
+        base.Died();
     }
 
     public override void Hit(float damage)
     {
-        base.Hit(damage);
         m_console.LogMessage("We've been hit! Take them down quickly");
+        base.Hit(damage);
     }
 
     public override void Collision()
     {
+        m_console.LogMessage("You've slammed into something! You're lucky we don't have any new holes!");
         base.Collision();
-       m_console.LogMessage("You've slammed into something! You're lucky we don't have any new holes!");
     }
 
     public void Loot(int deadTankNum)
@@ -94,7 +91,80 @@ public class Player : Tank
 
     public void Scan()
     {
+        foreach(Tank tank in Game.Instance.m_actors)
+        {
+            string message = "";
 
+            if (this != tank)
+            {
+                if (tank.Alive)
+                {
+                    message = "An enemy tank was spotted to the ";
+                }
+                else
+                {
+                    message = "Smoldering tank remains have been spotted to the ";
+                }
+
+                Vector3 distance = tank.transform.position - transform.position;
+                
+                if(distance.z > 0) // north
+                {
+                    if(distance.x > 0)// east
+                    {
+                        if(distance.z / distance.x >= 2)
+                        {
+                            message += "north";
+
+                        } else if (distance.x / distance.z >= 2)
+                        {
+                            message += "east";
+                        }
+                        else
+                        {
+                            message += "northeast";
+                        }
+                    }
+                    else // west
+                    {
+                        if (distance.z / distance.x >= 2)
+                        {
+                            // just north
+                        }
+                        else if (distance.x / distance.z >= 2)
+                        {
+                            // just west
+                        }
+                        else
+                        {
+                            //north west
+                        }
+                    }                    
+                }
+                else // south
+                {
+                    if(distance.x > 0) // east
+                    {
+                        if (distance.z / distance.x >= 2)
+                        {
+                            // just south
+                        }
+                        else if (distance.x / distance.z >= 2)
+                        {
+                            // just east
+                        }
+                        else
+                        {
+                            //south east
+                        }
+                    }
+                    else // west
+                    {
+
+                    }
+                }
+            }
+        }
     }
 
     public void Turn(int angle)

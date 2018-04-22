@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class Game : Singleton<Game>
 {
 	[SerializeField] Spawner[] m_spawners;
-	[SerializeField] Tank[] m_actors;
+	[SerializeField] public Tank[] m_actors;
 	[SerializeField] float m_gravityBase = 9.8f;
 	[SerializeField] float m_scale = 1.0f;
 	[SerializeField] float m_level = 1.0f;
