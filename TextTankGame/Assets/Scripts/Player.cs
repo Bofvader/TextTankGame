@@ -199,6 +199,15 @@ public class Player : Tank
         }
     }
 
+    public void Advance(float distance)
+    {
+        m_velocity = Vector3.zero;
+
+        m_velocity = Vector3.forward * m_maxSpeed;
+        m_travelTime = m_velocity.magnitude / distance;
+
+    }
+
     public void Scan()
     {
         foreach(Tank tank in Game.Instance.m_actors)
