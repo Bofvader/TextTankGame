@@ -35,6 +35,7 @@ public class Spawner : MonoBehaviour
 					{
 						if (!t.Alive)
 						{
+							Debug.Log("Spawned " + t.name);
 							t.Spawn();
 							m_spawnTimer = 0.0f;
 							++m_amount;

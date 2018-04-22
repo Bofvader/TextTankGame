@@ -42,7 +42,7 @@ public class Player : Tank
 
     public override void Spawn()
     {
-        m_console.LogMessage("Get those fingers preped and ready! An enemy tank has appeared!");
+        m_console.LogMessage("Attention! Time to get to work, remove the enemy armor.");
         base.Spawn();
     }
 
