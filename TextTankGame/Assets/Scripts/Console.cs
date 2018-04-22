@@ -262,7 +262,7 @@ public class Console : MonoBehaviour
 							{
 
 								AddToLog("Moving " + match.Groups[1]);
-								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
+								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
 								//call player.move(match.group[1], match.group[2]);
 							}
 							break;
@@ -271,7 +271,7 @@ public class Console : MonoBehaviour
 							{
 
 								AddToLog("Retreating...");
-								m_player.Retreat(int.Parse(match.Groups[1].Value));
+								m_player.Retreat(float.Parse(match.Groups[1].Value));
 								//call player.retreat(match.Groups[1]);
 							}
 							break;
@@ -280,7 +280,7 @@ public class Console : MonoBehaviour
 							{
 
 								AddToLog("Retreating..." + match.Groups[2]);
-								m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
+								m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
 								//call player.retreat(match.Groups[1], match.Groups[2]);
 							}
 							break;
@@ -289,7 +289,7 @@ public class Console : MonoBehaviour
 							{
 
 								AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
-								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
+								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
 								//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							}
 							break;

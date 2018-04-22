@@ -44,6 +44,10 @@ public class Tank : MonoBehaviour
             transform.position += (m_velocity * Time.deltaTime);
             m_travelTime -= Time.deltaTime;
         }
+        else
+        {
+            m_velocity = Vector3.zero;
+        }
     }
 
     void FixedUpdate()

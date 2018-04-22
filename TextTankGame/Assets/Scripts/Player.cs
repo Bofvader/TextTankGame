@@ -69,44 +69,85 @@ public class Player : Tank
 
     }
 
-    //public void Retreat(int distance)
-    //{
-
-    //}
-
-    public void Retreat(int distance, string speed = "normal")
+    public void Retreat(float distance, string speed = "normal")
     {
+        m_velocity = Vector3.zero;
+        
+        m_velocity = Vector3.back * m_maxSpeed;
+        m_travelTime = m_velocity.magnitude / distance;
 
+        if (m_velocity.magnitude > 0.0f)
+        {
+            if (speed.CompareTo("halftime") == 0)
+            {
+                m_velocity *= 0.5f;
+
+            }
+            else if (speed.CompareTo("doubletime") == 0)
+            {
+                m_velocity *= 2.0f;
+
+            }
+            else if (speed.CompareTo("tripletime") == 0)
+            {
+                m_velocity *= 3.0f;
+            }
+        }
     }
 
-    //public void Move(string direction, int distance)
-    //{
-        
-    //}
-
-    public void Move(string direction, int distance, string speed = "normal")
+    public void Move(string direction, float distance, string speed = "normal")
     {
+        m_velocity = Vector3.zero;
+
         if(direction.CompareTo("north") == 0)
         {
             Turn(0);
-            transform.rotation = Quaternion.LookRotation(new Vector3(0.0f, 0.0f, 1.0f));
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(0.0f, 0.0f, 1.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
 
         } else if (direction.CompareTo("west") == 0)
         {
             Turn(90);
-
-        } else if (direction.CompareTo("south") == 0)
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(1.0f, 0.0f, 0.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
+            
+        }
+        else if (direction.CompareTo("south") == 0)
         {
             Turn(180);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(0.0f, 0.0f, -1.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
 
         } else if (direction.CompareTo("east") == 0)
         {
             Turn(270);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(-1.0f, 0.0f, 0.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
 
         }
         else
         {
             m_console.LogMessage("Invalid move command. Please input direction (north, south, east, or west) and a number to move");
+        }
+
+        if(m_velocity.magnitude > 0.0f)
+        {
+            if (speed.CompareTo("halftime") == 0)
+            {
+                m_velocity *= 0.5f;
+
+            } else if(speed.CompareTo("doubletime") == 0)
+            {
+                m_velocity *= 2.0f;
+
+            } else if(speed.CompareTo("tripletime") == 0)
+            {
+                m_velocity *= 3.0f;
+            }
         }
     }
 
