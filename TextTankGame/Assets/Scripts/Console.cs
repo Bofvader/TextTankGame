@@ -137,7 +137,7 @@ public class Console : MonoBehaviour
 				AddToLog("2 - Exit");
 				break;
 			case 1:
-				AddToLog("Would you like to play a game?");
+				AddToLog("These words like break bones.");
 				Game.Instance.StartGame();
 				break;
 		}

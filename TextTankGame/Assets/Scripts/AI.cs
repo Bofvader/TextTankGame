@@ -85,6 +85,12 @@ public class AI : Tank
 			{
 				m_wasHit = false;
 				go = m_target;
+
+				Tank t = m_target.GetComponent<Tank>();
+				if(t)
+				{
+					t.Hit(m_damage);
+				}
 			}
 		}
 
