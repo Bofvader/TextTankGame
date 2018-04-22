@@ -15,4 +15,9 @@ public class Cube : NetworkBehaviour
 
         transform.Translate(x, 0, z);
     }
+
+    public override void OnStartLocalPlayer()
+    {
+        GetComponent<MeshRenderer>().material.color = Color.red;
+    }
 }

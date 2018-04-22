@@ -14,7 +14,7 @@ public class Tank : NetworkBehaviour
     public float m_tankSize = 1.0f;
     public float m_hitPoints = 100;
     public float m_damage = 40;
-	public bool m_isAlive = false;
+    [SyncVar] public bool m_isAlive = false;
 
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 
