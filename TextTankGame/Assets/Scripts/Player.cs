@@ -5,8 +5,15 @@ using UnityEngine;
 public class Player : Tank
 {
 
-	public override bool Fire()
+	// Use this for initialization
+	void Start()
 	{
-		return base.Fire();
+
+	}
+
+	// Update is called once per frame
+	void Update()
+	{
+
 	}
 }

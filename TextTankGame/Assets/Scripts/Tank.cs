@@ -6,11 +6,12 @@ public class Tank : MonoBehaviour
 {
 	[SerializeField] Vector3 m_spawnPoint;
 	[SerializeField] protected float m_maxSpeed = 5.0f;
+	[SerializeField] protected float m_hitPoints = 100;
+	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_tankSize = 1.0f;
-	[SerializeField] float m_hitPoints = 100;
 	[SerializeField] float m_damage = 40;
-	[SerializeField] float m_projectileSpeed = 40;
+	[SerializeField] float m_errorMargin = 5.0f;
 
 	protected float m_speed = 0.0f;
 	protected float m_tiltAngle = 0.0f;
@@ -21,6 +22,7 @@ public class Tank : MonoBehaviour
 
 	public bool Alive { get { return m_isAlive; } }
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
+	public float Size { get { return m_tankSize; } }
 
 	void FixedUpdate()
 	{
@@ -67,16 +69,23 @@ public class Tank : MonoBehaviour
 			
 			foreach(GameObject go in gos)
 			{
-				Vector3 difference = go.transform.position - transform.position;
-				float smallDistance = difference.magnitude;
+				Vector3 point = go.transform.position - transform.position;
+				float difference = point.magnitude;
 
-				if (smallDistance == distance)
+				if (difference == distance)
 				{
-					Vector3 north = Vector3.forward * smallDistance;
-					Vector3 offset = north - difference;
-					float test = offset.magnitude;
+					Vector3 north = Vector3.forward * difference;
+					north = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * north;
 
-					if (test <= m_tankSize)
+					float offset = (point - north).magnitude;
+					float test = m_errorMargin;
+					Tank t = go.GetComponent<Tank>();
+					if(t)
+					{
+						test += t.Size;
+					}
+
+					if(offset <= test)
 					{
 						hit = go;
 						break;

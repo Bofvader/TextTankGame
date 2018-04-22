@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
 		foreach (Tank t in m_spawns)
 		{
 
-			if (t.m_isAlive)
+			if (t.Alive)
 			{
 				++m_population;
 			}
@@ -31,7 +31,7 @@ public class Spawner : MonoBehaviour
 			{
 				foreach (Tank t in m_spawns)
 				{
-					if (!t.m_isAlive)
+					if (!t.Alive)
 					{
 						t.Spawn();
 						m_spawnTimer = 0.0f;
