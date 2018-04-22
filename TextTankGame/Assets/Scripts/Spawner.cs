@@ -15,27 +15,30 @@ public class Spawner : MonoBehaviour
 
 	void Update()
 	{
+		Debug.Log("Spawner: " + gameObject.name);
 		if (m_isSpawning)
 		{
-			int m_population = 0;
+			Debug.Log(gameObject.name + " is on");
+			int population = 0;
 			foreach (Tank t in m_spawns)
 			{
-
 				if (t.Alive)
 				{
-					++m_population;
+					++population;
 				}
 			}
 
+			Debug.Log("Current population = " + population);
+
 			if (m_spawnTimer >= m_spawnSpeed)
 			{
-				if (m_population < m_maxPopulation)
+				if (population < m_maxPopulation)
 				{
 					foreach (Tank t in m_spawns)
 					{
 						if (!t.Alive)
 						{
-							Debug.Log("Spawned " + t.name);
+							Debug.Log("Spawned");
 							t.Spawn();
 							m_spawnTimer = 0.0f;
 							++m_amount;
