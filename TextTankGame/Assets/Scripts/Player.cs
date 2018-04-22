@@ -66,7 +66,50 @@ public class Player : Tank
 
     public void Loot(int deadTankNum)
     {
+        bool foundTank = false;
 
+        for(int i = 0; i < Game.Instance.m_actors.Length; i++)
+        {
+            if(deadTankNum == i)
+            {
+                foundTank = true;
+
+                if (!Game.Instance.m_actors[i].Alive)
+                {
+                    int num = (int)Random.Range(0.0f, 4.0f);
+                    m_console.LogMessage("Tank carcass found. Scavenging now!");
+
+                    if(num == 0)
+                    {
+                        m_console.LogMessage("You have found a wounded man, taking him hostage");
+
+                    } else if (num == 1)
+                    {
+                        m_console.LogMessage("You found a few tank shells close to exploding, but you saved them so they should be safe to use.");
+                        m_damage += 20;
+
+                    } else if (num == 2)
+                    {
+                        m_console.LogMessage("You found some tank plating that we could use for ourselves!");
+                        m_hitPoints += m_damage;
+
+                    }
+                    else
+                    {
+                        m_console.LogMessage("Anything useful has already exploded or burnt to a crisp");
+                    }
+                }
+                else
+                {
+                    m_console.LogMessage("Tank number " + deadTankNum + " is still kicking. Take them down so we can take their stuff!");
+                }
+            }
+        }
+
+        if (!foundTank)
+        {
+            m_console.LogMessage("No tank with the number " + deadTankNum + " is out there. Search for a number from zero to " + (Game.Instance.m_actors.Length - 1));
+        }
     }
 
     public void Retreat(float distance, string speed = "normal")
