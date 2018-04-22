@@ -89,6 +89,7 @@ public class Player : Tank
         if(direction.CompareTo("north") == 0)
         {
             Turn(0);
+            transform.rotation = Quaternion.LookRotation(new Vector3(0.0f, 0.0f, 1.0f));
 
         } else if (direction.CompareTo("west") == 0)
         {
