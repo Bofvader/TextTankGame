@@ -45,4 +45,9 @@ public class Game : Singleton<Game>
 	{
 
 	}
+
+	public void ExitGame()
+	{
+		Application.Quit();
+	}
 }

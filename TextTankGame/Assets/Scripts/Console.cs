@@ -48,12 +48,12 @@ public class Console : MonoBehaviour
 		m_input.ActivateInputField();
 		m_audio = gameObject.GetComponent<AudioSource>();
 		m_displayLog = new string[m_maxLineCount];
-		m_displayLog[m_maxLineCount - 1] = "Would you like to play a game?";
 
-		for (int i = 0; i < m_maxLineCount - 1; i++)
-		{
-			m_displayLog[i] = "";
-		}
+		ClearConsole();
+
+		AddToLog("0 - Singleplayer");
+		AddToLog("1 - Multiplayer");
+		AddToLog("2 - Exit");
 	}
 
 	// Update is called once per frame
@@ -75,7 +75,6 @@ public class Console : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.Return))
 		{
 			string input = m_input.textComponent.text;
-			AddToLog(input);
 
 			m_input.Select();
 			m_input.text = "";
@@ -95,15 +94,52 @@ public class Console : MonoBehaviour
 			{
 				string raw = match.Value;
 				int selection = Int32.Parse(raw);
+				switch(selection)
+				{
+					case 0: //Singlplayer
+						StartCoroutine(Loading(1));
+						break;
+					case 1: //Multiplayer
+						SetUpLan();
+						break;
+					case 2: //Exit
+						ClearConsole();
+						AddToLog("Goodbye");
+						Game.Instance.ExitGame();
+						break;
+				}
 			}
 		}
 
 	}
 
+	private void SetUpLan()
+	{
+
+	}
+
 	private IEnumerator Loading(int next)
 	{
+		ClearConsole();
+
+		AddToLog("Loading...");
+
 		yield return new WaitForSeconds(m_loadTime);
 		m_selectedMenu = next;
+
+		ClearConsole();
+
+		switch(next)
+		{
+			case 0:
+				AddToLog("0 - Singleplayer");
+				AddToLog("1 - Multiplayer");
+				AddToLog("2 - Exit");
+				break;
+			case 1:
+				AddToLog("Would you like to play a game?");
+				break;
+		}
 	}
 
 	void UpdateGame()
@@ -232,12 +268,21 @@ public class Console : MonoBehaviour
 		PrintToConsole();
 	}
 
+	void ClearConsole()
+	{
+		for (int i = 0; i < m_maxLineCount; i++)
+		{
+			m_displayLog[i] = " ";
+		}
+	}
+
 	void Quit()
 	{
 		if (m_quiting)
 		{
 			AddToLog("Got it, the conflict is over.");
 			Game.Instance.QuiteToMenu();
+			StartCoroutine(Loading(0));
 		}
 		else
 		{
