@@ -12,7 +12,7 @@ public class Game : Singleton<Game>
 
 	public float Gravity { get { return m_gravity; } }
 	public float Scale { get { return m_scale; } }
-    public NetworkManager networkManager;
+	public NetworkManager networkManager;
 
 	void Update()
 	{
@@ -36,14 +36,33 @@ public class Game : Singleton<Game>
 		}
 	}
 
+	public GameObject[] GetObjectsInRange(GameObject source, float radius, string targetTag)
+	{
+		List<GameObject> returnGameObjects = new List<GameObject>();
+
+		GameObject[] gameObjects;
+		gameObjects = GameObject.FindGameObjectsWithTag(targetTag);
+
+		foreach(GameObject go in gameObjects) 
+		{
+			float distance = (go.transform.position - source.transform.position).magnitude;
+			if(distance <= radius)
+			{
+				returnGameObjects.Add(go);
+			}
+		}
+
+		return returnGameObjects.ToArray();
+	}
+
 	public void QuiteToMenu()
 	{
-		foreach(Tank t in m_actors)
+		foreach (Tank t in m_actors)
 		{
 			t.Died();
 		}
 
-		foreach(Spawner s in m_spawners)
+		foreach (Spawner s in m_spawners)
 		{
 			s.SpawnerOff();
 		}
@@ -51,7 +70,7 @@ public class Game : Singleton<Game>
 
 	public void StartGame()
 	{
-		foreach(Spawner s in m_spawners)
+		foreach (Spawner s in m_spawners)
 		{
 			s.SpawnerOn();
 		}

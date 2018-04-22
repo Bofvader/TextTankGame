@@ -1,42 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 
-public class Tank : NetworkBehaviour
+public class Tank : MonoBehaviour
 {
 	[SerializeField] Vector3 m_spawnPoint;
 	[SerializeField] protected float m_maxSpeed = 5.0f;
 	[SerializeField] float m_shotTime = 1.0f;
-    [SerializeField] float m_tankSize = 1.0f;
-    [SerializeField] float m_hitPoints = 100;
-    [SerializeField] float m_damage = 40;
-	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
+	[SerializeField] float m_tankSize = 1.0f;
+	[SerializeField] float m_hitPoints = 100;
+	[SerializeField] float m_damage = 40;
+	[SerializeField] float m_projectileSpeed = 40;
 
 	protected float m_speed = 0.0f;
-	protected float m_shotTimer = 0.0f;
 	protected float m_tiltAngle = 0.0f;
 	protected float m_turnAngle = 0.0f;
 
-    [SyncVar] public bool m_isAlive = false;
+	float m_shotTimer = 0.0f;
+	bool m_isAlive = false;
+
+	public bool Alive { get { return m_isAlive; } }
+	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 
 	void FixedUpdate()
-    {
-        if (isLocalPlayer)
-        {
-            if (m_isAlive)
-            {
-                if (m_shotTimer < m_shotTime)
-                {
-                    m_shotTimer += Time.deltaTime;
-                }
+	{
+		if (m_isAlive)
+		{
+			if (m_shotTimer < m_shotTime)
+			{
+				m_shotTimer += Time.deltaTime;
+			}
 
-                if (m_hitPoints <= 0.0f)
-                {
-                    Died();
-                }
-            }
-        }		
+			if (m_hitPoints <= 0.0f)
+			{
+				Died();
+			}
+		}
 	}
 
 	public virtual void Spawn(float level)
@@ -61,9 +60,13 @@ public class Tank : NetworkBehaviour
 	{
 		bool hit = false;
 
-		if(ShotReady)
+		if (ShotReady)
 		{
+			float distance = ((m_projectileSpeed * m_projectileSpeed) * Mathf.Sin(2 * m_tiltAngle)) / Game.Instance.Gravity;
+			GameObject[] gos = Game.Instance.GetObjectsInRange(distance);
+			
 
+			  
 		}
 
 		return hit;
@@ -85,7 +88,7 @@ public class Tank : NetworkBehaviour
 
 		float walls = m_tankSize;
 		Tank t = other.GetComponent<Tank>();
-		if(t)
+		if (t)
 		{
 			walls += t.m_tankSize;
 		}
