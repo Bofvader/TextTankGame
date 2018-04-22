@@ -42,7 +42,7 @@ public class Player : Tank
 
     public override void Spawn()
     {
-        m_console.LogMessage("Get those fingers preped and ready! An enemy tank has appeared!");
+        m_console.LogMessage("Get those fingers preped and ready! Open fire!");
         base.Spawn();
     }
 
@@ -54,7 +54,7 @@ public class Player : Tank
 
     public override void Hit(float damage)
     {
-        m_console.LogMessage("We've been hit! Take them down quickly");
+        m_console.LogMessage("We've been hit! Return fire before we're finished!");
         base.Hit(damage);
     }
 
@@ -69,24 +69,44 @@ public class Player : Tank
 
     }
 
-    public void Retreat(int distance)
+    //public void Retreat(int distance)
+    //{
+
+    //}
+
+    public void Retreat(int distance, string speed = "normal")
     {
 
     }
 
-    public void Retreat(int distance, string speed)
-    {
-
-    }
-
-    public void Move(string direction, int distance)
-    {
+    //public void Move(string direction, int distance)
+    //{
         
-    }
+    //}
 
-    public void Move(string direction, int distance, string speed)
+    public void Move(string direction, int distance, string speed = "normal")
     {
-        
+        if(direction.CompareTo("north") == 0)
+        {
+            Turn(0);
+
+        } else if (direction.CompareTo("west") == 0)
+        {
+            Turn(90);
+
+        } else if (direction.CompareTo("south") == 0)
+        {
+            Turn(180);
+
+        } else if (direction.CompareTo("east") == 0)
+        {
+            Turn(270);
+
+        }
+        else
+        {
+            m_console.LogMessage("Invalid move command. Please input direction (north, south, east, or west) and a number to move");
+        }
     }
 
     public void Scan()
@@ -127,17 +147,17 @@ public class Player : Tank
                     }
                     else // west
                     {
-                        if (distance.z / distance.x >= 2)
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
                         {
-                            // just north
+                            message += "north";
                         }
-                        else if (distance.x / distance.z >= 2)
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
                         {
-                            // just west
+                            message += "west";
                         }
                         else
                         {
-                            //north west
+                            message += "northwest";
                         }
                     }                    
                 }
@@ -145,22 +165,33 @@ public class Player : Tank
                 {
                     if(distance.x > 0) // east
                     {
-                        if (distance.z / distance.x >= 2)
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
                         {
-                            // just south
+                            message += "south";
                         }
-                        else if (distance.x / distance.z >= 2)
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
                         {
-                            // just east
+                            message += "east";
                         }
                         else
                         {
-                            //south east
+                            message += "southeast";
                         }
                     }
                     else // west
                     {
-
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
+                        {
+                            message += "south";
+                        }
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
+                        {
+                            message += "west";
+                        }
+                        else
+                        {
+                            message += "southwest";
+                        }
                     }
                 }
             }
@@ -169,12 +200,11 @@ public class Player : Tank
 
     public void Turn(int angle)
     {
-
+        m_turnAngle = angle;
     }
 
     public void Angle(int angle)
     {
-
+        m_tiltAngle = angle;
     }
-    //loot, move, retreat, scan, turn, angle, 
 }
