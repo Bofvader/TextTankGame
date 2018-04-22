@@ -189,12 +189,14 @@ public class Console : MonoBehaviour
 						case 4: //fire
 						case 5: //shoot
 							AddToLog("Firing...");
+                            m_player.Fire();
 							//call player.fire();
 							break;
 						case 6: //bang
 						case 7: //pow
 						case 8: //pewpew
 							AddToLog("Firing...were the sounds necessary?");
+                            m_player.Fire();
 							//call player.fire();
 							break;
 						case 9: //scan
