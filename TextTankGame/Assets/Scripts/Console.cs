@@ -21,14 +21,16 @@ public class Console : MonoBehaviour
 		"quit", "leave", "fullretreat", "surrender", //quit
 		"fire", "shoot", //fire
 		"bang", "pow", "pewpew", //fireAlt
-		"scan", "search", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
+		"scan", "search", "radar", "boopboop", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
 		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
 		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
-		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", "advance({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
+        "move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
+        "advance({|0?[1-9]|[1-9][0-9]|})", "forward({|0?[1-9]|[1-9][0-9]|})",//advance
 		"retreat({|0?[1-9]|[1-9][0-9]|})", //retreating
 		"retreat({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //retreatalt
 		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //moveAlt
 		"loot([0-9])", "check([0-9])", "scavenge([0-9])", //loot
+        "help", "whatdoido", "howdoidothis", "what", "whatisgoingon", "how", "question", //help
 		"([0-9])" //menu controls
 	};
 
@@ -207,11 +209,13 @@ public class Console : MonoBehaviour
 							break;
 						case 9: //scan
 						case 10: //search
-						case 11: //lookaround
-						case 12: //whatdoyousee
-						case 13: //whatsaroundus
-						case 14: //tellmethesituation
-						case 15: //whatsthesituation
+                        case 11: //radar
+                        case 12: //boopboop
+						case 13: //lookaround
+						case 14: //whatdoyousee
+						case 15: //whatsaroundus
+						case 16: //tellmethesituation
+						case 17: //whatsthesituation
 							if (m_player.Alive)
 							{
 
@@ -220,7 +224,7 @@ public class Console : MonoBehaviour
 								//call player.scan();
 							}
 							break;
-						case 16: //aim
+						case 18: //aim
 							if (m_player.Alive)
 							{
 
@@ -229,7 +233,7 @@ public class Console : MonoBehaviour
 								//call player.angle(match.groups[1]);
 							}
 							break;
-						case 17: //turn
+						case 19: //turn
 							if (m_player.Alive)
 							{
 
@@ -238,7 +242,7 @@ public class Console : MonoBehaviour
 								//call player.turn(match.groups[1]);
 							}
 							break;
-						case 18: //aimalt
+						case 20: //aimalt
 							if (m_player.Alive)
 							{
 
@@ -247,7 +251,7 @@ public class Console : MonoBehaviour
 								//call player.angle(match.groups[1]);
 							}
 							break;
-						case 19: //turnalt
+						case 21: //turnalt
 							if (m_player.Alive)
 							{
 
@@ -256,46 +260,54 @@ public class Console : MonoBehaviour
 								//call player.turn(match.groups[1]);
 							}
 							break;
-						case 20: //move
-						case 21: //advance
-							if (m_player.Alive)
-							{
+						case 22: //move
+                            if (m_player.Alive)
+                            {
 
-								AddToLog("Moving " + match.Groups[1]);
-								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
-								//call player.move(match.group[1], match.group[2]);
-							}
-							break;
-						case 22: //retreat
+                                AddToLog("Moving " + match.Groups[1]);
+                                m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
+                                //call player.move(match.group[1], match.group[2]);
+                            }
+                            break;
+                        case 23: //advance							
+                        case 24: //forward - change
+                            if (m_player.Alive)
+                            { 
+                                AddToLog("Advancing");
+                                m_player.Advance(float.Parse(match.Groups[1].Value));
+                                //call player.move(match.group[1], match.group[2]);
+                            }
+                            break;
+                        case 25: //retreat
 							if (m_player.Alive)
 							{
 
 								AddToLog("Retreating...");
-								m_player.Retreat(int.Parse(match.Groups[1].Value));
+								m_player.Retreat(float.Parse(match.Groups[1].Value));
 								//call player.retreat(match.Groups[1]);
 							}
 							break;
-						case 23: //retreatalt
+						case 26: //retreatalt
 							if (m_player.Alive)
 							{
 
 								AddToLog("Retreating..." + match.Groups[2]);
-								m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
+								m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
 								//call player.retreat(match.Groups[1], match.Groups[2]);
 							}
 							break;
-						case 24: //movealt
+						case 27: //movealt
 							if (m_player.Alive)
 							{
 
 								AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
-								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
+								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
 								//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							}
 							break;
-						case 25: //loot
-						case 26: //check
-						case 27: //scavenge
+						case 28: //loot
+						case 29: //check
+						case 30: //scavenge
 							if (m_player.Alive)
 							{
 
@@ -304,6 +316,24 @@ public class Console : MonoBehaviour
 								//call player.loot(match.Groups[1]);
 							}
 							break;
+                        case 31: //help
+                        case 32: //whatdoido
+                        case 33: //howdoidothis
+                        case 34: //what
+                        case 35: //whatisgoingon
+                        case 36: //how
+                        case 37: //question 
+                            //basic commmands: quit, fire, scan, angle ###, turn ###, move direction distance, retreat distance, loot #
+                            AddToLog("Basic commands:");
+                            AddToLog("fire - fire gun at current angle");
+                            AddToLog("scan - search for other tanks");
+                            AddToLog("angle ### - move barrel to given angle");
+                            AddToLog("turn ### - turn tank to given degree");
+                            AddToLog("move (direction) ### - move north, south, east, or west as far as you give it");
+                            AddToLog("retreat ### - move backwards ### away");
+                            AddToLog("loot # - scavenge the remains of another tank using its tank number");
+                            AddToLog("quit - quit game");
+                            break;
 						default:
 							AddToLog("I'm sorry, I don't know what to do.");
 							break;

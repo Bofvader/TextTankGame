@@ -17,6 +17,8 @@ public class Tank : MonoBehaviour
 	protected float m_maxSpeed = 0.0f;
 	protected float m_tiltAngle = 0.0f;
 	protected float m_turnAngle = 0.0f;
+    protected float m_travelTime = 0.0f;
+    protected Vector3 m_velocity = Vector3.zero;
 
 	float m_shotTimer = 0.0f;
 	bool m_isAlive = false;
@@ -35,7 +37,20 @@ public class Tank : MonoBehaviour
 		m_maxSpeed = m_maxSpeedBase * Game.Instance.Scale;
 	}
 
-	void FixedUpdate()
+    private void Update()
+    {
+        if (m_isAlive && m_travelTime > 0)
+        {
+            transform.position += (m_velocity * Time.deltaTime);
+            m_travelTime -= Time.deltaTime;
+        }
+        else
+        {
+            m_velocity = Vector3.zero;
+        }
+    }
+
+    void FixedUpdate()
 	{
 		if (m_isAlive)
 		{
