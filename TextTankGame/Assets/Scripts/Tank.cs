@@ -28,9 +28,15 @@ public class Tank : MonoBehaviour
 
 			if(m_hitPoints <= 0.0f)
 			{
-				m_isAlive = false;
+				Died();
 			}
 		}
+	}
+
+	protected virtual void Died()
+	{
+		m_isAlive = false;
+		//Play death noise
 	}
 
 	public virtual bool Fire()
@@ -51,7 +57,7 @@ public class Tank : MonoBehaviour
 
 	public bool Colliding(GameObject other)
 	{
-		float rawDistance = (other.transform.position - transform.position).magnitude;
+		float rawDistance = (other.transform.position - transform.position).magnitude * Game.Instance.Scale;
 
 		float walls = m_tankSize;
 		Tank t = other.GetComponent<Tank>();
@@ -60,6 +66,6 @@ public class Tank : MonoBehaviour
 			walls += t.m_tankSize;
 		}
 
-		return walls >= rawDistance;
+		return walls * Game.Instance.Scale >= rawDistance;
 	}
 }
