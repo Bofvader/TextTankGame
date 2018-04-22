@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Tank : MonoBehaviour
+public class Tank : NetworkBehaviour
 {
 	[SerializeField] protected float m_maxSpeed = 5.0f;
 	[SerializeField] protected float m_shotTime = 1.0f;
@@ -13,24 +14,27 @@ public class Tank : MonoBehaviour
     public float m_tankSize = 1.0f;
     public float m_hitPoints = 100;
     public float m_damage = 40;
-	public bool m_isAlive = false;
+    [SyncVar] public bool m_isAlive = false;
 
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 
 	void FixedUpdate()
     {
-		if (m_isAlive)
-		{
-			if (m_shotTimer < m_shotTime)
-			{
-				m_shotTimer += Time.deltaTime;
-			}
+        if (isLocalPlayer)
+        {
+            if (m_isAlive)
+            {
+                if (m_shotTimer < m_shotTime)
+                {
+                    m_shotTimer += Time.deltaTime;
+                }
 
-			if(m_hitPoints <= 0.0f)
-			{
-				Died();
-			}
-		}
+                if (m_hitPoints <= 0.0f)
+                {
+                    Died();
+                }
+            }
+        }		
 	}
 
 	protected virtual void Died()

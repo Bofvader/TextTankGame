@@ -1,16 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
 public class Game : Singleton<Game>
 {
-
 	[SerializeField] Tank[] m_actors;
 	[SerializeField] float m_gravity = 9.8f;
 	[SerializeField] float m_scale = 1.0f;
 
 	public float Gravity { get { return m_gravity; } }
 	public float Scale { get { return m_scale; } }
+    public NetworkManager networkManager;
 
 	// Use this for initialization
 	void Start()
