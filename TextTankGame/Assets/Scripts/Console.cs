@@ -28,7 +28,7 @@ public class Console : MonoBehaviour
 		"retreat({|0?[1-9]|[1-9][0-9]|})", //retreating
 		"retreat({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //retreatalt
 		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //moveAlt
-		"loot([0-9])", "check([0-9])", "scavenging([0-9])", //loot
+		"loot([0-9])", "check([0-9])", "scavenge([0-9])", //loot
 		"([0-9])" //menu controls
 	};
 
@@ -56,7 +56,6 @@ public class Console : MonoBehaviour
 		AddToLog("2 - Exit");
 	}
 
-	// Update is called once per frame
 	void Update()
 	{
 		switch (m_selectedMenu)
@@ -120,6 +119,8 @@ public class Console : MonoBehaviour
 
 	private IEnumerator Loading(int next)
 	{
+		yield return new WaitForSeconds(0.5f);
+
 		ClearConsole();
 
 		AddToLog("Loading...");
@@ -138,6 +139,7 @@ public class Console : MonoBehaviour
 				break;
 			case 1:
 				AddToLog("Would you like to play a game?");
+				Game.Instance.StartGame();
 				break;
 		}
 	}
@@ -173,76 +175,76 @@ public class Console : MonoBehaviour
 					Debug.Log(test);
 
 					matched = true;
-					if (index > 2)
+					if (index > 4)
 					{
 						m_quiting = false;
 					}
 
 					switch (index)
 					{
-						case 0:
-						case 1:
-						case 2:
-						case 3:
+						case 0: //quit
+						case 1: //leave
+						case 2: //fullretreat
+						case 3: //surrender
 							Quit();
 							break;
-						case 4:
-						case 5:
+						case 4: //fire
+						case 5: //shoot
 							AddToLog("Firing...");
 							//call player.fire();
 							break;
-						case 6:
-						case 7:
-						case 8:
+						case 6: //bang
+						case 7: //pow
+						case 8: //pewpew
 							AddToLog("Firing...were the sounds necessary?");
 							//call player.fire();
 							break;
-						case 9:
-						case 10:
-						case 11:
-						case 12:
-						case 13:
-						case 14:
-						case 15:
+						case 9: //scan
+						case 10: //search
+						case 11: //lookaround
+						case 12: //whatdoyousee
+						case 13: //whatsaroundus
+						case 14: //tellmethesituation
+						case 15: //whatsthesituation
 							AddToLog("Scanning...");
 							//call player.scan();
 							break;
-						case 16:
+						case 16: //aim
 							AddToLog("...");
 							//call player.angle(match.groups[1]);
 							break;
-						case 17:
+						case 17: //turn
 							AddToLog("...");
 							//call player.turn(match.groups[1]);
 							break;
-						case 18:
+						case 18: //aimalt
 							AddToLog("Aye sir");
 							//call player.angle(match.groups[1]);
 							break;
-						case 19:
+						case 19: //turnalt
 							AddToLog("Aye sir");
 							//call player.turn(match.groups[1]);
 							break;
-						case 20:
-						case 21:
+						case 20: //move
+						case 21: //advance
 							AddToLog("Moving " + match.Groups[1]);
 							//call player.move(match.group[1], match.group[2]);
 							break;
-						case 22:
+						case 22: //retreat
 							AddToLog("Retreating...");
 							//call player.retreat(match.Groups[1]);
 							break;
-						case 23:
+						case 23: //retreatalt
 							AddToLog("Retreating..." + match.Groups[2]);
 							//call player.retreat(match.Groups[1], match.Groups[2]);
 							break;
-						case 24:
+						case 24: //movealt
 							AddToLog("Moving " + match.Groups[1] + " " + match.Groups[3]);
 							//call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
 							break;
-						case 25:
-						case 26:
-						case 27:
+						case 25: //loot
+						case 26: //check
+						case 27: //scavenge
 							AddToLog("Scavenging...");
 							//call player.loot(match.Groups[1]);
 							break;

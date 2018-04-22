@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class Game : Singleton<Game>
 {
+	[SerializeField] Spawner[] m_spawners;
 	[SerializeField] Tank[] m_actors;
 	[SerializeField] float m_gravity = 9.8f;
 	[SerializeField] float m_scale = 1.0f;
@@ -13,16 +14,9 @@ public class Game : Singleton<Game>
 	public float Scale { get { return m_scale; } }
     public NetworkManager networkManager;
 
-	// Use this for initialization
-	void Start()
-	{
-
-	}
-
-	// Update is called once per frame
 	void Update()
 	{
-
+		CollisionDetection();
 	}
 
 	void CollisionDetection()
@@ -44,7 +38,23 @@ public class Game : Singleton<Game>
 
 	public void QuiteToMenu()
 	{
+		foreach(Tank t in m_actors)
+		{
+			t.Died();
+		}
 
+		foreach(Spawner s in m_spawners)
+		{
+			s.SpawnerOff();
+		}
+	}
+
+	public void StartGame()
+	{
+		foreach(Spawner s in m_spawners)
+		{
+			s.SpawnerOn();
+		}
 	}
 
 	public void ExitGame()

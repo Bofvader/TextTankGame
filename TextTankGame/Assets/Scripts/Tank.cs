@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 
 public class Tank : NetworkBehaviour
 {
+	[SerializeField] Vector3 m_spawnPoint;
 	[SerializeField] protected float m_maxSpeed = 5.0f;
 	[SerializeField] protected float m_shotTime = 1.0f;
 
@@ -37,7 +38,19 @@ public class Tank : NetworkBehaviour
         }		
 	}
 
-	protected virtual void Died()
+	public virtual void Spawn(float level)
+	{
+		m_isAlive = true;
+		transform.position = m_spawnPoint;
+	}
+
+	public virtual void Spawn()
+	{
+		m_isAlive = true;
+		transform.position = m_spawnPoint;
+	}
+
+	public virtual void Died()
 	{
 		m_isAlive = false;
 		//Play death noise
@@ -45,8 +58,14 @@ public class Tank : NetworkBehaviour
 
 	public virtual bool Fire()
 	{
+		bool hit = false;
 
-		return false;
+		if(ShotReady)
+		{
+
+		}
+
+		return hit;
 	}
 
 	public virtual void Hit(float damage)

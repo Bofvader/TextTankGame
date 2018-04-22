@@ -7,8 +7,11 @@ public class AI : Tank
 	[SerializeField] GameObject m_target = null;
 	[SerializeField] Vector3 m_waypoint;
 	[SerializeField] float m_firingRange = 1.0f;
+	[SerializeField] int m_track = 0;
 
 	bool m_isFiring = false;
+
+	public int Track { get { return m_track; } }
 
 	// Update is called once per frame
 	void Update()
