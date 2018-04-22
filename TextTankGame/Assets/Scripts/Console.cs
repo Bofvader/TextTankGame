@@ -52,7 +52,7 @@ public class Console : MonoBehaviour
 		ClearConsole();
 
 		AddToLog("0 - Singleplayer");
-		AddToLog("1 - Multiplayer");
+		AddToLog("1 - Multiplayer (Not Implimented yet)");
 		AddToLog("2 - Exit");
 	}
 
@@ -100,6 +100,7 @@ public class Console : MonoBehaviour
 						break;
 					case 1: //Multiplayer
 						SetUpLan();
+						StartCoroutine(Loading(1));
 						break;
 					case 2: //Exit
 						ClearConsole();
@@ -130,11 +131,11 @@ public class Console : MonoBehaviour
 
 		ClearConsole();
 
-		switch(next)
+		switch(m_selectedMenu)
 		{
 			case 0:
 				AddToLog("0 - Singleplayer");
-				AddToLog("1 - Multiplayer");
+				AddToLog("1 - Multiplayer (Not Implimented yet)");
 				AddToLog("2 - Exit");
 				break;
 			case 1:

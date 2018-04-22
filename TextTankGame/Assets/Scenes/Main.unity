@@ -373,6 +373,16 @@ Prefab:
       propertyPath: m_target
       value: 
       objectReference: {fileID: 1505014660}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_spawnPoint.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_spawnPoint.z
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
@@ -1105,8 +1115,9 @@ MonoBehaviour:
   m_actors:
   - {fileID: 1363234829}
   - {fileID: 745797072}
-  m_gravity: 9.8
+  m_gravityBase: 9.8
   m_scale: 1
+  m_level: 1
 --- !u!1 &1849963983
 GameObject:
   m_ObjectHideFlags: 0

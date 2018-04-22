@@ -6,11 +6,12 @@ public class AI : Tank
 {
 	[SerializeField] GameObject m_target = null;
 	[SerializeField] float m_firingRange = 1.0f;
-	[SerializeField] float m_maxTrackDistance = 10.0f;
-	[SerializeField] float m_minTrackDistance = 3.0f;
+	[SerializeField] float m_updateTime = 3.0f;
 
 	bool m_isFiring = false;
 	bool m_wasHit = false;
+	float m_updateTimer = 0.0f;
+	Vector3 m_path = Vector3.zero;
 
 	void Update()
 	{
@@ -18,14 +19,42 @@ public class AI : Tank
 		{
 			if (m_speed < m_maxSpeed) ++m_speed;
 
-
-
 			if(InRangeOfTarget())
 			{
 				m_isFiring = true;
 				Fire();
 			}
+			else
+			{
+
+				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
+
+				Debug.Log(distanceFrom + " " + m_path.x + " " + m_path.y + " " + m_path.z);
+
+				Vector3 velocity = m_path;
+				velocity = velocity.normalized * m_speed * Time.deltaTime;
+				transform.position = transform.position + velocity;
+
+				float distanceNow = (m_target.transform.position - transform.position).magnitude;
+
+				if(distanceFrom < distanceNow && m_updateTimer >= m_updateTime)
+				{
+					m_path = Meander();
+					m_updateTimer = 0.0f;
+				}
+			}
 		}
+	}
+
+	Vector3 Meander()
+	{
+		Vector2 start = Random.insideUnitCircle;
+		Vector3 path = Vector3.zero;
+		path.x = start.x;
+		path.y = Game.Instance.Level;
+		path.z = start.y;
+
+		return path;
 	}
 
 	bool InRangeOfTarget()

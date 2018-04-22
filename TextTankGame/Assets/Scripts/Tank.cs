@@ -5,24 +5,35 @@ using UnityEngine;
 public class Tank : MonoBehaviour
 {
 	[SerializeField] Vector3 m_spawnPoint;
-	[SerializeField] protected float m_maxSpeed = 5.0f;
+	[SerializeField] protected float m_maxSpeedBase = 5.0f;
 	[SerializeField] protected float m_hitPoints = 100;
 	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_tankSize = 1.0f;
 	[SerializeField] float m_damage = 40;
-	[SerializeField] float m_errorMargin = 5.0f;
+	[SerializeField] float m_baseMargin = 5.0f;
 
 	protected float m_speed = 0.0f;
+	protected float m_maxSpeed = 0.0f;
 	protected float m_tiltAngle = 0.0f;
 	protected float m_turnAngle = 0.0f;
 
 	float m_shotTimer = 0.0f;
 	bool m_isAlive = false;
 
+	float m_size = 0.0f;
+	float m_errorMargin = 0.0f;
+
 	public bool Alive { get { return m_isAlive; } }
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
-	public float Size { get { return m_tankSize; } }
+	public float Size { get { return m_size; } }
+
+	private void Start()
+	{
+		m_size = m_tankSize * Game.Instance.Scale;
+		m_errorMargin = m_baseMargin * Game.Instance.Scale;
+		m_maxSpeed = m_maxSpeedBase * Game.Instance.Scale;
+	}
 
 	void FixedUpdate()
 	{

@@ -7,11 +7,20 @@ public class Game : Singleton<Game>
 {
 	[SerializeField] Spawner[] m_spawners;
 	[SerializeField] Tank[] m_actors;
-	[SerializeField] float m_gravity = 9.8f;
+	[SerializeField] float m_gravityBase = 9.8f;
 	[SerializeField] float m_scale = 1.0f;
+	[SerializeField] float m_level = 1.0f;
+
+	float m_gravity = 0.0f;
 
 	public float Gravity { get { return m_gravity; } }
 	public float Scale { get { return m_scale; } }
+	public float Level { get { return m_level; } }
+
+	private void Start()
+	{
+		m_gravity = m_gravityBase * m_scale;
+	}
 
 	void Update()
 	{
