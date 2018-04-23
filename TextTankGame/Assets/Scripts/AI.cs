@@ -22,11 +22,16 @@ public class AI : Tank
 
     public void SetRange()
     {
-        m_range = Mathf.Pow(m_projectileSpeed, 2);
+        float newRange = Mathf.Pow(m_projectileSpeed, 2);
         float launch = Mathf.Deg2Rad * 45 /*m_tiltAngle*/;
 
-        m_range *= Mathf.Sin(launch);
-        m_range /= Game.Instance.Gravity;
+        newRange *= Mathf.Sin(launch);
+        newRange /= Game.Instance.Gravity;
+
+        if(newRange > m_range)
+        {
+            m_range = newRange;
+        }
     }
 
 	protected void Update()
