@@ -37,6 +37,7 @@ public class Console : MonoBehaviour
 		"fuckyou", "fuckoff", "fuckme", "youbitch", "fuckingbitch", "suchanasshole",  //cussing
 		"volley", "volleyfire", "butthatschruch", "exitvehicle", "useobject", "greetings", "hi", //easter eggs
 		"health", "howamidoing", "myhealth", "displayhealth", //health
+		"reset", //reseting
 		"([0-9])" //menu controls
 	};
 
@@ -272,7 +273,7 @@ public class Console : MonoBehaviour
 							}
 							break;
 						case 24: //advance							
-						case 25: //forward - change
+						case 25: //forward
 							if (m_player.Alive)
 							{
 								AddToLog("-Advancing");
@@ -354,6 +355,7 @@ public class Console : MonoBehaviour
 							break;
 						case 55: //butthatschruch
 							AddToLog("-Friendly fire on, target locked, firing main cannon.");
+							m_player.Fire();
 							break;
 						case 56: //exitvehicle
 							AddToLog("-I can't let you do that Dave...");
@@ -371,6 +373,11 @@ public class Console : MonoBehaviour
 						case 63: //displayhealth
 							float health = m_player.Health;
 							AddToLog("-Hull intergity at " + health + " points.");
+							break;
+						case 64: //reset
+							AddToLog("-Moving back into position");
+							m_player.Turn(0);
+							m_player.Angle(1);
 							break;
 						default:
 							AddToLog("-I'm sorry, I don't know what to do.");

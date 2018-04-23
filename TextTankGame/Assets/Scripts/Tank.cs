@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Tank : MonoBehaviour
 {
-	[SerializeField] AudioClip m_gunSound = null;
+	[SerializeField] AudioSource m_gun = null;
 	[SerializeField] AudioClip m_moveSound = null;
 	[SerializeField] AudioClip m_deadSound = null;
 	[SerializeField] Vector3 m_spawnPoint;
@@ -19,7 +19,7 @@ public class Tank : MonoBehaviour
     [SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
-	protected float m_tiltAngle = 0.0f;
+	protected float m_tiltAngle = 1.0f;
 	protected float m_turnAngle = 0.0f;
     protected Vector3 m_velocity = Vector3.zero;
 	protected bool m_isMoving = false;
@@ -99,40 +99,72 @@ public class Tank : MonoBehaviour
 
 	public virtual GameObject Fire()
 	{
-		GameObject hit = null;
+		GameObject hit = gameObject;
 
-
+		Debug.Log("Shooting call");
 		if (ShotReady)
 		{
-			PlayGunSound();
+			Debug.Log("Shot was ready");
 
-			float distance = ((m_projectileSpeed * m_projectileSpeed) * Mathf.Sin(2 * m_tiltAngle)) / Game.Instance.Gravity;
+			PlayGunSound();
+			hit = null;
+
+			float distance = Mathf.Pow(m_projectileSpeed, 2);
+			float launch = Mathf.Deg2Rad * m_tiltAngle;
+
+			Debug.Log(distance + " * " + launch + " / " + Game.Instance.Gravity);
+
+			distance *= Mathf.Sin(2 * launch);
+			distance /= Game.Instance.Gravity;
+
+			Debug.Log("Distance: " + distance);
 			GameObject[] gos = Game.Instance.GetObjectsInRange(this.gameObject, distance, "Tank");
-			
-			foreach(GameObject go in gos)
+			Debug.Log(gos.Length + " things were in range");
+
+			foreach (GameObject go in gos)
 			{
 				if (go != gameObject)
 				{
+					Debug.Log("This is not this object");
+
 					Vector3 point = go.transform.position - transform.position;
 					float difference = point.magnitude;
 
-					if (difference == distance)
+					Debug.Log("Objects are " + difference + " away from each other");
+
+					float high = difference;
+					float low = difference;
+					Tank t = go.GetComponent<Tank>();
+					if (t)
 					{
+						high += t.Size;
+						low -= t.Size;
+						Debug.Log("Distance was adjusted to " + high + " and " + low);
+					}
+
+					if (distance >= low && distance <= high)
+					{
+						Debug.Log("Shot was withing ranges");
 						Vector3 north = Vector3.forward * difference;
 						north = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * north;
 
 						float offset = (point - north).magnitude;
 						float test = m_errorMargin;
-						Tank t = go.GetComponent<Tank>();
+
+						Debug.Log("Deviation was " + offset);
+
 						if (t)
 						{
 							test += t.Size;
 						}
 
+						Debug.Log("Error: " + test);
+
 						if (offset <= test)
 						{
 							hit = go;
 							if (offset <= test - m_errorMargin && t) t.Hit(m_damage);
+							Debug.Log("Hit something");
 							break;
 						}
 					}
@@ -170,10 +202,9 @@ public class Tank : MonoBehaviour
 
 	public void PlayGunSound()
 	{
-		if(m_audio)
+		if(m_gun)
 		{
-			m_audio.clip = m_gunSound;
-			m_audio.Play();
+			m_gun.Play();
 		}
 	}
 

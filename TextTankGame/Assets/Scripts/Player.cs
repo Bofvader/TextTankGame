@@ -49,26 +49,33 @@ public class Player : Tank
 
 			if (enemy)
 			{
-				float distance = (result.transform.position - transform.position).magnitude;
-
-				if (distance < m_closeHit)
+				if (enemy != this)
 				{
-					m_console.LogMessage("--Your shot was close, but you only grazed their tank.");
+					float distance = (result.transform.position - transform.position).magnitude;
 
-				}
-				else if (distance < m_inVicinity)
-				{
-					m_console.LogMessage("--You've got them shacking in fear, but no real damage was done.");
+					if (distance < m_closeHit)
+					{
+						m_console.LogMessage("--Your shot was close, but you only grazed their tank.");
+
+					}
+					else if (distance < m_inVicinity)
+					{
+						m_console.LogMessage("--You've got them shacking in fear, but no real damage was done.");
+					}
+					else
+					{
+						m_console.LogMessage("--Direct hit, do it again.");
+					}
 				}
 				else
 				{
-					m_console.LogMessage("--Where were you aiming? There's no tank over there!");
+					m_console.LogMessage("--Still reloading sir.");
 				}
 			}
         }
 		else
 		{
-			m_console.LogMessage("--You fired a shell directly into the opposing tank!");
+			m_console.LogMessage("--You hit no one. Who are you aiming at?");
 		}
 
         return result;
@@ -265,107 +272,117 @@ public class Player : Tank
     {
 		GameObject[] tanks = Game.Instance.GetObjectsInRange(gameObject, m_scanRange, "Tank");
 
-        foreach (GameObject go in tanks)
-        {
-			Tank tank = go.GetComponent<Tank>();
+		string message = "--";
 
-			string message = "";
+		if (tanks.Length > 0)
+		{
+			foreach (GameObject go in tanks)
+			{
+				Tank tank = go.GetComponent<Tank>();
 
-            if (this != tank)
-            {
-                if (tank.Alive)
-                {
-                    message = "An enemy tank was spotted to the ";
-                }
-                else
-                {
-                    message = "Smoldering tank remains located at ";
-                }
 
-                Vector3 distance = tank.transform.position - transform.position;
+				if (this != tank)
+				{
+					if (tank.Alive)
+					{
+						message = "An enemy tank was spotted to the ";
+					}
+					else
+					{
+						message = "Smoldering tank remains located at ";
+					}
 
-                if (distance.z > 0) // north
-                {
-                    if (distance.x > 0)// east
-                    {
-                        if (distance.z / distance.x >= 2)
-                        {
-                            message += "north";
+					Vector3 distance = tank.transform.position - transform.position;
 
-                        }
-                        else if (distance.x / distance.z >= 2)
-                        {
-                            message += "east";
-                        }
-                        else
-                        {
-                            message += "northeast";
-                        }
-                    }
-                    else // west
-                    {
-                        if (Mathf.Abs(distance.z / distance.x) >= 2)
-                        {
-                            message += "north";
-                        }
-                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
-                        {
-                            message += "west";
-                        }
-                        else
-                        {
-                            message += "northwest";
-                        }
-                    }
-                }
-                else // south
-                {
-                    if (distance.x > 0) // east
-                    {
-                        if (Mathf.Abs(distance.z / distance.x) >= 2)
-                        {
-                            message += "south";
-                        }
-                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
-                        {
-                            message += "east";
-                        }
-                        else
-                        {
-                            message += "southeast";
-                        }
-                    }
-                    else // west
-                    {
-                        if (Mathf.Abs(distance.z / distance.x) >= 2)
-                        {
-                            message += "south";
-                        }
-                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
-                        {
-                            message += "west";
-                        }
-                        else
-                        {
-                            message += "southwest";
-                        }
-                    }
-                }
-            }
-        }
+					if (distance.z > 0) // north
+					{
+						if (distance.x > 0)// east
+						{
+							if (distance.z / distance.x >= 2)
+							{
+								message += "north";
+
+							}
+							else if (distance.x / distance.z >= 2)
+							{
+								message += "east";
+							}
+							else
+							{
+								message += "northeast";
+							}
+						}
+						else // west
+						{
+							if (Mathf.Abs(distance.z / distance.x) >= 2)
+							{
+								message += "north";
+							}
+							else if (Mathf.Abs(distance.x / distance.z) >= 2)
+							{
+								message += "west";
+							}
+							else
+							{
+								message += "northwest";
+							}
+						}
+					}
+					else // south
+					{
+						if (distance.x > 0) // east
+						{
+							if (Mathf.Abs(distance.z / distance.x) >= 2)
+							{
+								message += "south";
+							}
+							else if (Mathf.Abs(distance.x / distance.z) >= 2)
+							{
+								message += "east";
+							}
+							else
+							{
+								message += "southeast";
+							}
+						}
+						else // west
+						{
+							if (Mathf.Abs(distance.z / distance.x) >= 2)
+							{
+								message += "south";
+							}
+							else if (Mathf.Abs(distance.x / distance.z) >= 2)
+							{
+								message += "west";
+							}
+							else
+							{
+								message += "southwest";
+							}
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			message += "There's nothing sir.";
+		}
+
+		m_console.LogMessage(message);
     }
 
     public void Turn(int angle)
     {
         m_turnAngle = angle;
 
-        m_console.LogMessage("--We've turned our tank to " + angle + "degrees");
+        m_console.LogMessage("--We've turned our tank to " + angle + " degrees");
     }
 
     public void Angle(int angle)
     {
         m_tiltAngle = angle;
 
-        m_console.LogMessage("--We've angled the barrel " + angle + "degrees");
+        m_console.LogMessage("--We've angled the barrel " + angle + " degrees");
     }
 }
