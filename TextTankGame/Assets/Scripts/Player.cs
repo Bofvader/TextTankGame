@@ -10,6 +10,7 @@ public class Player : Tank
     [SerializeField] float m_scanRange = 100.0f;
 	[SerializeField] [Range(0.0f, 10.0f)] float m_hitShake = 4f;
 	[SerializeField] [Range(0.0f, 10.0f)] float m_collideShake = 2f;
+	[SerializeField] [Range(0.0f, 10.0f)] float m_shotShake = 0.5f;
 
 
 	protected float m_travelTime = 0.0f;
@@ -68,6 +69,8 @@ public class Player : Tank
 			{
 				if (enemy != this)
 				{
+					CameraController.Instance.Shake(m_shotShake);
+
 					float travel = Mathf.Pow(m_projectileSpeed, 2);
 					float launch = Mathf.Deg2Rad * m_tiltAngle;
 
@@ -103,6 +106,7 @@ public class Player : Tank
         }
 		else
 		{
+			CameraController.Instance.Shake(m_shotShake);
 			m_console.LogMessage("--You hit no one. Who are you aiming at?");
 		}
 
