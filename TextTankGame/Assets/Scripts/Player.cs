@@ -81,32 +81,157 @@ public class Player : Tank
 
     public void Loot(int deadTankNum)
     {
+        bool foundTank = false;
 
+        for (int i = 0; i < Game.Instance.m_actors.Length; i++)
+        {
+            if (deadTankNum == i)
+            {
+                foundTank = true;
+
+                if (!Game.Instance.m_actors[i].Alive)
+                {
+                    int num = (int)Random.Range(0.0f, 4.0f);
+                    m_console.LogMessage("Tank carcass found. Scavenging now!");
+
+                    if (num == 0)
+                    {
+                        m_console.LogMessage("You have found a wounded man, taking him hostage");
+
+                    }
+                    else if (num == 1)
+                    {
+                        m_console.LogMessage("You found a few tank shells close to exploding, but you saved them so they should be safe to use.");
+                        m_damage += 20;
+
+                    }
+                    else if (num == 2)
+                    {
+                        m_console.LogMessage("You found some tank plating that we could use for ourselves!");
+                        m_hitPoints += m_damage;
+
+                    }
+                    else
+                    {
+                        m_console.LogMessage("Anything useful has already exploded or burnt to a crisp");
+                    }
+                }
+                else
+                {
+                    m_console.LogMessage("Tank number " + deadTankNum + " is still kicking. Take them down so we can take their stuff!");
+                }
+            }
+        }
+
+        if (!foundTank)
+        {
+            m_console.LogMessage("No tank with the number " + deadTankNum + " is out there. Search for a number from zero to " + (Game.Instance.m_actors.Length - 1));
+        }
     }
 
-    public void Retreat(int distance)
+    public void Retreat(float distance, string speed = "normal")
     {
+        m_velocity = Vector3.zero;
 
+        m_velocity = Vector3.back * m_maxSpeed;
+        m_travelTime = m_velocity.magnitude / distance;
+
+        if (m_velocity.magnitude > 0.0f)
+        {
+            if (speed.CompareTo("halftime") == 0)
+            {
+                m_velocity /= 2.0f;
+                m_travelTime *= 2.0f;
+
+            }
+            else if (speed.CompareTo("doubletime") == 0)
+            {
+                m_velocity *= 2.0f;
+                m_travelTime /= 2.0f;
+            }
+            else if (speed.CompareTo("tripletime") == 0)
+            {
+                m_velocity *= 3.0f;
+                m_travelTime /= 3.0f;
+            }
+        }
     }
 
-    public void Retreat(int distance, string speed)
+    public void Move(string direction, float distance, string speed = "normal")
     {
+        m_velocity = Vector3.zero;
 
+        if (direction.CompareTo("north") == 0)
+        {
+            Turn(0);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(0.0f, 0.0f, 1.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
+
+        }
+        else if (direction.CompareTo("west") == 0)
+        {
+            Turn(90);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(1.0f, 0.0f, 0.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
+
+        }
+        else if (direction.CompareTo("south") == 0)
+        {
+            Turn(180);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(0.0f, 0.0f, -1.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
+
+        }
+        else if (direction.CompareTo("east") == 0)
+        {
+            Turn(270);
+            transform.rotation = Quaternion.LookRotation(transform.position + new Vector3(-1.0f, 0.0f, 0.0f));
+            m_velocity = Vector3.forward * m_maxSpeed;
+            m_travelTime = m_velocity.magnitude / distance;
+
+        }
+        else
+        {
+            m_console.LogMessage("Invalid move command. Please input direction (north, south, east, or west) and a number to move");
+        }
+
+        if (m_velocity.magnitude > 0.0f)
+        {
+            if (speed.CompareTo("halftime") == 0)
+            {
+                m_velocity /= 2.0f;
+                m_travelTime *= 2.0f;
+
+            }
+            else if (speed.CompareTo("doubletime") == 0)
+            {
+                m_velocity *= 2.0f;
+                m_travelTime /= 2.0f;
+
+            }
+            else if (speed.CompareTo("tripletime") == 0)
+            {
+                m_velocity *= 3.0f;
+                m_travelTime /= 3.0f;
+            }
+        }
     }
 
-    public void Move(string direction, int distance)
+    public void Advance(float distance)
     {
-        
-    }
+        m_velocity = Vector3.zero;
 
-    public void Move(string direction, int distance, string speed)
-    {
-        
+        m_velocity = Vector3.forward * m_maxSpeed;
+        m_travelTime = m_velocity.magnitude / distance;
+
     }
 
     public void Scan()
     {
-        foreach(Tank tank in Game.Instance.m_actors)
+        foreach (Tank tank in Game.Instance.m_actors)
         {
             string message = "";
 
@@ -114,24 +239,25 @@ public class Player : Tank
             {
                 if (tank.Alive)
                 {
-                    message = "-An enemy tank was spotted to the ";
+                    message = "An enemy tank was spotted to the ";
                 }
                 else
                 {
-                    message = "-Smoldering tank remains have been spotted to the ";
+                    message = "Smoldering tank remains have been spotted to the ";
                 }
 
                 Vector3 distance = tank.transform.position - transform.position;
-                
-                if(distance.z > 0) // north
+
+                if (distance.z > 0) // north
                 {
-                    if(distance.x > 0)// east
+                    if (distance.x > 0)// east
                     {
-                        if(distance.z / distance.x >= 2)
+                        if (distance.z / distance.x >= 2)
                         {
                             message += "north";
 
-                        } else if (distance.x / distance.z >= 2)
+                        }
+                        else if (distance.x / distance.z >= 2)
                         {
                             message += "east";
                         }
@@ -142,40 +268,51 @@ public class Player : Tank
                     }
                     else // west
                     {
-                        if (distance.z / distance.x >= 2)
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
                         {
-                            // just north
+                            message += "north";
                         }
-                        else if (distance.x / distance.z >= 2)
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
                         {
-                            // just west
+                            message += "west";
                         }
                         else
                         {
-                            //north west
+                            message += "northwest";
                         }
-                    }                    
+                    }
                 }
                 else // south
                 {
-                    if(distance.x > 0) // east
+                    if (distance.x > 0) // east
                     {
-                        if (distance.z / distance.x >= 2)
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
                         {
-                            // just south
+                            message += "south";
                         }
-                        else if (distance.x / distance.z >= 2)
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
                         {
-                            // just east
+                            message += "east";
                         }
                         else
                         {
-                            //south east
+                            message += "southeast";
                         }
                     }
                     else // west
                     {
-
+                        if (Mathf.Abs(distance.z / distance.x) >= 2)
+                        {
+                            message += "south";
+                        }
+                        else if (Mathf.Abs(distance.x / distance.z) >= 2)
+                        {
+                            message += "west";
+                        }
+                        else
+                        {
+                            message += "southwest";
+                        }
                     }
                 }
             }
@@ -184,12 +321,16 @@ public class Player : Tank
 
     public void Turn(int angle)
     {
+        m_turnAngle = angle;
 
+        m_console.LogMessage("We've turned our tank to " + angle + "degrees");
     }
 
     public void Angle(int angle)
     {
+        m_tiltAngle = angle;
 
+        m_console.LogMessage("We've rotated the tank's barrel to " + angle + "degrees");
     }
     //loot, move, retreat, scan, turn, angle, 
 }
