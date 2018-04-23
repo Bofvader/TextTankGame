@@ -17,7 +17,6 @@ public class Tank : MonoBehaviour
 	protected float m_maxSpeed = 0.0f;
 	protected float m_tiltAngle = 0.0f;
 	protected float m_turnAngle = 0.0f;
-    protected float m_travelTime = 0.0f;
     protected Vector3 m_velocity = Vector3.zero;
 
 	float m_shotTimer = 0.0f;
@@ -30,28 +29,14 @@ public class Tank : MonoBehaviour
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 	public float Size { get { return m_size; } }
 
-	private void Start()
+    void FixedUpdate()
 	{
 		m_size = m_tankSize * Game.Instance.Scale;
 		m_errorMargin = m_baseMargin * Game.Instance.Scale;
 		m_maxSpeed = m_maxSpeedBase * Game.Instance.Scale;
-	}
 
-    private void Update()
-    {
-        if (m_isAlive && m_travelTime > 0)
-        {
-            transform.position += (m_velocity * Time.deltaTime);
-            m_travelTime -= Time.deltaTime;
-        }
-        else
-        {
-            m_velocity = Vector3.zero;
-        }
-    }
+		Debug.Log(m_maxSpeed + " " + m_maxSpeedBase + " " + Game.Instance.Scale);
 
-    void FixedUpdate()
-	{
 		if (m_isAlive)
 		{
 			if (m_shotTimer < m_shotTime)

@@ -16,16 +16,16 @@ public class AI : Tank
 	float m_range = 0.0f;
 	Vector3 m_path = Vector3.forward;
 
-	private void Start()
+	protected void Update()
 	{
 		m_range = m_firingRange * Game.Instance.Scale;
-	}
 
-	void Update()
-	{
 		if (Alive)
 		{
-			if (m_speed < m_maxSpeed) ++m_speed;
+			if (m_speed < m_maxSpeed)
+			{
+				++m_speed;
+			}
 
 			if(InRangeOfTarget())
 			{
@@ -37,15 +37,16 @@ public class AI : Tank
 
 				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
 
-				Vector3 velocity = m_path;
-				velocity = velocity.normalized * m_speed * Time.deltaTime;
+				Vector3 velocity = Vector3.zero;
+				velocity = m_path * m_speed * Time.deltaTime;
+
 				transform.position = transform.position + velocity;
 
 				float distanceNow = (m_target.transform.position - transform.position).magnitude;
 
 				if (m_updateTimer >= m_updateTime)
 				{
-					if (distanceNow >= distanceFrom)
+					if (distanceNow > distanceFrom)
 					{
 						m_path = Meander();
 						m_updateTimer = 0.0f;
@@ -70,8 +71,6 @@ public class AI : Tank
 
 		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
 		m_updateAngle += m_updateRatio;
-
-		Debug.Log("New path: " + path.x + " " + path.y + " " + path.z);
 
 		return path;
 	}

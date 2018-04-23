@@ -9,6 +9,21 @@ public class Player : Tank
     [SerializeField] float m_inVicinity = 3.0f;
     [SerializeField] float m_scanRange = 100.0f;
 
+	protected float m_travelTime = 0.0f;
+
+	protected void Update()
+	{
+		if (Alive && m_travelTime > 0)
+		{
+			transform.position += (m_velocity * Time.deltaTime);
+			m_travelTime -= Time.deltaTime;
+		}
+		else
+		{
+			m_velocity = Vector3.zero;
+		}
+	}
+
 	public override GameObject Fire()
 	{
         GameObject result = base.Fire();
