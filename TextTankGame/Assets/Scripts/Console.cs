@@ -74,6 +74,11 @@ public class Console : MonoBehaviour
 		}
 	}
 
+    private void SetUpLan()
+    {
+
+    }
+
 	void UpdateMenu()
 	{
 		if (Input.GetKeyDown(KeyCode.Return))
@@ -114,12 +119,6 @@ public class Console : MonoBehaviour
 				}
 			}
 		}
-
-	}
-
-	private void SetUpLan()
-	{
-
 	}
 
 	private IEnumerator Loading(int next)
@@ -254,7 +253,8 @@ public class Console : MonoBehaviour
                             if (m_player.Alive)
                             {
                                 AddToLog("-Moving " + match.Groups[1]);
-                                m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
+                                m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
+                                //call player.move(match.group[1], match.group[2]);
                             }
                             break;
                         case 23: //advance							
@@ -268,31 +268,35 @@ public class Console : MonoBehaviour
                         case 25: //retreat
 							if (m_player.Alive)
 							{
-								AddToLog("-Retreating...");
-								m_player.Retreat(int.Parse(match.Groups[1].Value));
-							}
+                                AddToLog("-Retreating...");
+                                m_player.Retreat(float.Parse(match.Groups[1].Value));
+                                //call player.retreat(match.Groups[1]);
+                            }
 							break;
 						case 26: //retreatalt
 							if (m_player.Alive)
 							{
-								AddToLog("-Retreating..." + match.Groups[2]);
-								m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
-							}
+                                AddToLog("-Retreating..." + match.Groups[2]);
+                                m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
+                                //call player.retreat(match.Groups[1], match.Groups[2]);
+                            }
 							break;
 						case 27: //movealt
 							if (m_player.Alive)
 							{
-								AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
-								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
-							}
+                                AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
+                                m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
+                                //call player.move(match.Groups[1], match.Groups[2], match.Groups[3]);
+                            }
 							break;
 						case 28: //loot
 						case 29: //check
 						case 30: //scavenge
 							if (m_player.Alive)
 							{
-								AddToLog("-Scavenging...");
-								m_player.Loot(int.Parse(match.Groups[1].Value));
+                                AddToLog("-Scavenging...");
+                                m_player.Loot(int.Parse(match.Groups[1].Value));
+								//call player.loot(match.Groups[1]);
 							}
 							break;
                         case 31: //help
@@ -329,7 +333,6 @@ public class Console : MonoBehaviour
 				AddToLog("-Order not recognized.");
 			}
 		}
-
 	}
 
 	private void FixedUpdate()
