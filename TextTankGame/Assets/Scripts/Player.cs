@@ -60,7 +60,7 @@ public class Player : Tank
 					Vector3 path = Vector3.forward * travel;
 					path = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * path;
 
-					float distance = (result.transform.position - path).magnitude;
+					float distance = (result.transform.position - path).magnitude - enemy.Size;
 					Debug.Log(distance);
 
 					if (distance <= m_closeHit && distance > 0)
