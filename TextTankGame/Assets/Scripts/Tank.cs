@@ -209,6 +209,7 @@ public class Tank : MonoBehaviour
 	{
 		if (m_audio)
 		{
+			m_audio.loop = false;
 			m_audio.clip = m_deadSound;
 			m_audio.Play();
 		}

@@ -63,7 +63,6 @@ public class Player : Tank
 					path = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * path;
 
 					int distance = (int)((result.transform.position - path).magnitude - enemy.Size);
-					Debug.Log(distance);
 
 					if (distance <= (int)m_closeHit && distance > 0)
 					{

@@ -8,59 +8,83 @@ public class AI : Tank
 	[SerializeField] float m_range = 1.0f;
 	[SerializeField] float m_updateTime = 3.0f;
 	[SerializeField] float m_updateRatio = 3.0f;
+	[SerializeField] float m_waitTime = 4.0f;
+	[SerializeField] float m_startTime = 2.0f;
 
 	bool m_isFiring = false;
 	bool m_wasHit = false;
+	bool m_greenLight = true;
 	float m_updateTimer = 0.0f;
 	float m_updateAngle = 0.0f;
+	float m_waitTimer = 0.0f;
 	Vector3 m_path = Vector3.forward;
 
 	protected void Update()
 	{
 		if (Alive)
 		{
-			if (m_speed < m_maxSpeed)
+			if (m_waitTimer >= m_waitTime)
 			{
-				++m_speed;
-			}
-
-			if(InRangeOfTarget())
-			{
-				Debug.Log("Within range");
-
-				Fire();
+				m_waitTimer = 0.0f;
+				m_greenLight = false;
 				Stop();
+				StartCoroutine(Waiting());
 			}
-			else if(!m_isFiring)
+			else if(m_greenLight)
 			{
-				StartedMoving();
-
-				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
-
-				Vector3 velocity = Vector3.zero;
-				velocity = m_path * m_speed * Time.deltaTime;
-				transform.position = transform.position + velocity;
-
-				float distanceNow = (m_target.transform.position - transform.position).magnitude;
-
-				if (m_updateTimer >= m_updateTime)
+				if (m_speed < m_maxSpeed)
 				{
-					if (distanceNow > distanceFrom)
+					++m_speed;
+				}
+
+				if (InRangeOfTarget())
+				{
+					Debug.Log("Within range");
+
+					Fire();
+					Stop();
+				}
+				else if (!m_isFiring)
+				{
+					m_waitTimer += Time.deltaTime;
+
+					if (!m_isMoving)
 					{
-						if(GetAngleFromTarget() < 180)
+						StartedMoving();
+					}
+
+					float distanceFrom = (m_target.transform.position - transform.position).magnitude;
+
+					Vector3 velocity = Vector3.zero;
+					velocity = m_path * m_speed * Time.deltaTime;
+					transform.position = transform.position + velocity;
+
+					float distanceNow = (m_target.transform.position - transform.position).magnitude;
+
+					if (m_updateTimer >= m_updateTime)
+					{
+						if (distanceNow > distanceFrom)
 						{
-							m_path = MeanderLeft();
+							if (GetAngleFromTarget() < 180)
+							{
+								m_path = MeanderLeft();
+							}
+							else
+							{
+								m_path = MeanderRight();
+							}
+							m_updateTimer = 0.0f;
 						}
-						else
-						{
-							m_path = MeanderRight();
-						}
-						m_updateTimer = 0.0f;
+					}
+					else
+					{
+						m_updateTimer += Time.deltaTime;
 					}
 				}
-				else
+
+				if (m_health <= 0.0f)
 				{
-					m_updateTimer += Time.deltaTime;
+					PlayDieSound();
 				}
 			}
 		}
@@ -68,6 +92,12 @@ public class AI : Tank
 		{
 			Stop();
 		}
+	}
+
+	IEnumerator Waiting()
+	{
+		yield return new WaitForSeconds(m_startTime);
+		m_greenLight = true;
 	}
 
 	public override void Spawn()
@@ -96,8 +126,6 @@ public class AI : Tank
 	{
 		Vector3 track = m_target.transform.position - transform.position;
 		float angle = Quaternion.Angle(Quaternion.LookRotation(track), Quaternion.LookRotation(m_path));
-
-		Debug.Log(angle);
 
 		return angle;
 	}

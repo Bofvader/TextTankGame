@@ -29,7 +29,7 @@ public class Console : MonoBehaviour
         "advance({|0?[1-9]|[1-9][0-9]|})", "forward({|0?[1-9]|[1-9][0-9]|})",//advance
 		"retreat({|0?[1-9]|[1-9][0-9]|})", //retreating
 		"retreat({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //retreatalt
-		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})?", //moveAlt
+		"move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})({|doubletime|tripletime|halftime|})", //moveAlt
 		"loot([0-9])", "check([0-9])", "scavenge([0-9])", //loot
         "help", "whatdoido", "howdoidothis", "what", "whatisgoingon", "how", "question", //help
 		"changeweapons", "cartridgechange", "loaddifferentrounds", //weapon change
