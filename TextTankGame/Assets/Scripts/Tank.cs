@@ -122,15 +122,15 @@ public class Tank : MonoBehaviour
 				{
 
 					Vector3 point = go.transform.position - transform.position;
-					float difference = point.magnitude;
+					int difference = (int)point.magnitude;
 
-					float high = difference;
-					float low = difference;
+					int high = difference;
+					int low = difference;
 					Tank t = go.GetComponent<Tank>();
 					if (t)
 					{
-						high += t.Size;
-						low -= t.Size;
+						high += (int)t.Size;
+						low -= (int)t.Size;
 					}
 
 					if (distance >= low && distance <= high)
@@ -138,12 +138,12 @@ public class Tank : MonoBehaviour
 						Vector3 north = Vector3.forward * difference;
 						north = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * north;
 
-						float offset = (point - north).magnitude;
-						float test = m_errorMargin;
+						int offset = (int)(point - north).magnitude;
+						int test = (int)m_errorMargin;
 
 						if (t)
 						{
-							test += t.Size;
+							test += (int)t.Size;
 						}
 
 						if (offset <= test)
