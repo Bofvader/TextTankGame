@@ -15,7 +15,6 @@ public class Tank : MonoBehaviour
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_size = 1.0f;
 	[SerializeField] float m_errorMargin = 5.0f;
-	[SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
 	protected float m_tiltAngle = 1.0f;
@@ -176,13 +175,13 @@ public class Tank : MonoBehaviour
 
 	public bool Colliding(GameObject other)
 	{
-		float rawDistance = (other.transform.position - transform.position).magnitude;
+		int rawDistance = (int)(other.transform.position - transform.position).magnitude;
 
-		float walls = Size;
+		int walls = (int)Size;
 		Tank t = other.GetComponent<Tank>();
 		if (t)
 		{
-			walls += t.Size;
+			walls += (int)t.Size;
 		}
 
 		return walls >= rawDistance;

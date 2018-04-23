@@ -9,8 +9,10 @@ public class Game : Singleton<Game>
 	[SerializeField] public Tank[] m_actors;
 	[SerializeField] float m_gravity = 9.8f;
 	[SerializeField] float m_level = 1.0f;
+	[SerializeField] float m_endingTime = 2.0f;
 
 	bool m_gameStarted = false;
+	bool m_gameEnded = false;
 
 	public float Gravity { get { return m_gravity; } }
 	public float Level { get { return m_level; } }
@@ -31,18 +33,25 @@ public class Game : Singleton<Game>
 				}
 			}
 
-			if (death == m_spawners.Length - 1)
+			if (death == m_spawners.Length - 1 && !m_gameEnded)
 			{
-				QuiteToMenu();
-				foreach (Tank t in m_actors)
-				{
-					if (t.GetType() == typeof(Player))
-					{
-						(t as Player).BringUpMenu();
-					}
-				}
+				m_gameEnded = true;
+				StartCoroutine(EndGame());
 			}
 		}
+	}
+	IEnumerator EndGame()
+	{
+		yield return new WaitForSeconds(m_endingTime);
+		QuiteToMenu();
+		foreach (Tank t in m_actors)
+		{
+			if (t.GetType() == typeof(Player))
+			{
+				(t as Player).BringUpMenu();
+			}
+		}
+
 	}
 
 	void CollisionDetection()
@@ -58,7 +67,10 @@ public class Game : Singleton<Game>
 					t.Collision();
 					o.Collision();
 				}
+
+				++j;
 			}
+			++i;
 		}
 	}
 
@@ -105,6 +117,7 @@ public class Game : Singleton<Game>
 		}
 
 		m_gameStarted = true;
+		m_gameEnded = false;
 	}
 
 	public void ExitGame()

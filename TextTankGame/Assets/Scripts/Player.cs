@@ -8,6 +8,9 @@ public class Player : Tank
     [SerializeField] float m_closeHit = 1.0f;
     [SerializeField] float m_inVicinity = 3.0f;
     [SerializeField] float m_scanRange = 100.0f;
+	[SerializeField] [Range(0.0f, 10.0f)] float m_hitShake = 4f;
+	[SerializeField] [Range(0.0f, 10.0f)] float m_collideShake = 2f;
+
 
 	protected float m_travelTime = 0.0f;
 
@@ -17,8 +20,20 @@ public class Player : Tank
 		{
 			if (m_travelTime > 0)
 			{
-				transform.position += (m_velocity * Time.deltaTime);
-				m_travelTime -= Time.deltaTime;
+				if (m_speed == 0)
+				{
+					m_travelTime = 0.0f;
+				}
+				else
+				{
+					transform.position += (m_velocity * m_speed * Time.deltaTime);
+					m_travelTime -= Time.deltaTime;
+
+					if(m_speed < m_maxSpeed)
+					{
+						++m_speed;
+					}
+				}
 			}
 			else
 			{
@@ -112,14 +127,15 @@ public class Player : Tank
     public override void Hit(float damage)
     {
         m_console.LogMessage("-We've been hit! Take them down quickly");
-        CameraController.Instance.Shake(m_screenShake);
+        CameraController.Instance.Shake(m_hitShake);
         base.Hit(damage);
     }
 
     public override void Collision()
     {
         m_console.LogMessage("-You've slammed into something! You're lucky we don't have any new holes!");
-        CameraController.Instance.Shake(m_screenShake);
+        CameraController.Instance.Shake(m_collideShake);
+		transform.position += m_velocity * -0.2f;
         base.Collision();
     }
 
@@ -256,8 +272,7 @@ public class Player : Tank
 			velocity = Vector3.right;
 		}
 
-		velocity = velocity * m_maxSpeed;
-		m_travelTime = velocity.magnitude * distance;
+		m_travelTime = (velocity * m_maxSpeed).magnitude * distance;
 
 		if (velocity.magnitude > 0.0f)
 		{
@@ -281,6 +296,7 @@ public class Player : Tank
 
 			StartedMoving();
 			m_velocity = velocity;
+			++m_speed;
         }
     }
 

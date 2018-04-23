@@ -106,6 +106,12 @@ public class AI : Tank
 		m_updateTimer = m_updateTime;
 	}
 
+	public override void Collision()
+	{
+		transform.position += m_path * -0.2f;
+		base.Collision();
+	}
+
 	Vector3 MeanderLeft()
 	{
 		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
