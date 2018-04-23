@@ -388,6 +388,11 @@ Prefab:
       propertyPath: m_firingRange
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_updateTime
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}

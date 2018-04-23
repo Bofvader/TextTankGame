@@ -38,7 +38,6 @@ public class AI : Tank
 
 				Vector3 velocity = Vector3.zero;
 				velocity = m_path * m_speed * Time.deltaTime;
-				Debug.Log(velocity.x + ", " + velocity.y + ", " + velocity.z);
 				transform.position = transform.position + velocity;
 
 				float distanceNow = (m_target.transform.position - transform.position).magnitude;
@@ -47,7 +46,14 @@ public class AI : Tank
 				{
 					if (distanceNow > distanceFrom)
 					{
-						m_path = Meander();
+						if(GetAngleFromTarget() < 180)
+						{
+							m_path = MeanderLeft();
+						}
+						else
+						{
+							m_path = MeanderRight();
+						}
 						m_updateTimer = 0.0f;
 					}
 				}
@@ -65,13 +71,32 @@ public class AI : Tank
 		m_updateTimer = m_updateTime;
 	}
 
-	Vector3 Meander()
+	Vector3 MeanderLeft()
 	{
 
 		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
 		m_updateAngle += m_updateRatio;
 
 		return path;
+	}
+
+	Vector3 MeanderRight()
+	{
+
+		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
+		m_updateAngle -= m_updateRatio;
+
+		return path;
+	}
+
+	float GetAngleFromTarget()
+	{
+		Vector3 track = m_target.transform.position - transform.position;
+		float angle = Quaternion.Angle(Quaternion.LookRotation(track), Quaternion.LookRotation(m_path));
+
+		Debug.Log(angle);
+
+		return angle;
 	}
 
 	bool InRangeOfTarget()
