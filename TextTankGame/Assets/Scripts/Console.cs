@@ -15,9 +15,7 @@ public class Console : MonoBehaviour
 	[SerializeField] AudioClip m_return = null;
 	[SerializeField] int m_maxLineCount = 10;
 	[SerializeField] float m_loadTime = 3.0f;
-	[SerializeField] float m_waitTime = 0.5f;
-
-	bool m_isRolling = false;
+	[SerializeField] float m_waitTime = 1.0f;
 
 	string[] m_wordList =
 	{
@@ -77,10 +75,10 @@ public class Console : MonoBehaviour
 	private void DisplayMenu()
 	{
 		AddToLog("Tactical Texting");
-		for(int i = 1; i < m_maxLineCount - 8; i++)
+		for (int i = 1; i < m_maxLineCount - 8; i++)
 		{
 			AddToLog("");
-		}												                          
+		}
 		AddToLog(@"                |O|======[NHHXHHN]P");
 		AddToLog(@"               ________/_______l___");
 		AddToLog(@"             /____________________|D");
@@ -92,9 +90,9 @@ public class Console : MonoBehaviour
 	}
 
 	private void SetUpLan()
-    {
+	{
 
-    }
+	}
 
 	void UpdateMenu()
 	{
@@ -120,7 +118,7 @@ public class Console : MonoBehaviour
 			{
 				string raw = match.Value;
 				int selection = Int32.Parse(raw);
-				switch(selection)
+				switch (selection)
 				{
 					case 0: //Singlplayer
 						StartCoroutine(Loading(1));
@@ -138,20 +136,6 @@ public class Console : MonoBehaviour
 		}
 	}
 
-	private IEnumerator Rolling(int n)
-	{
-		if (n >= 0)
-		{
-			m_isRolling = true;
-			yield return new WaitForSeconds(m_waitTime);
-
-			AddToLog("");
-			Rolling(n - 1);
-		}
-
-		m_isRolling = false;
-	}
-
 	private IEnumerator Loading(int next)
 	{
 		yield return new WaitForSeconds(m_waitTime);
@@ -165,7 +149,7 @@ public class Console : MonoBehaviour
 
 		ClearConsole();
 
-		switch(m_selectedMenu)
+		switch (m_selectedMenu)
 		{
 			case 0:
 				DisplayMenu();
@@ -238,8 +222,8 @@ public class Console : MonoBehaviour
 							break;
 						case 9: //scan
 						case 10: //search
-                        case 11: //radar
-                        case 12: //boopboop
+						case 11: //radar
+						case 12: //boopboop
 						case 13: //lookaround
 						case 14: //whatdoyousee
 						case 15: //whatsaroundus
@@ -281,67 +265,67 @@ public class Console : MonoBehaviour
 							}
 							break;
 						case 23: //move
-                            if (m_player.Alive)
-                            {
-                                AddToLog("-Moving " + match.Groups[1]);
-                                m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
-                            }
-                            break;
-                        case 24: //advance							
-                        case 25: //forward - change
-                            if (m_player.Alive)
-                            { 
-                                AddToLog("-Advancing");
-                                m_player.Advance(int.Parse(match.Groups[1].Value), match.Groups[1].Value);
-                            }
-                            break;
-                        case 26: //retreat
 							if (m_player.Alive)
 							{
-                                AddToLog("-Retreating...");
-                                m_player.Retreat(float.Parse(match.Groups[1].Value));
-                            }
+								AddToLog("-Moving " + match.Groups[1]);
+								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
+							}
+							break;
+						case 24: //advance							
+						case 25: //forward - change
+							if (m_player.Alive)
+							{
+								AddToLog("-Advancing");
+								m_player.Advance(int.Parse(match.Groups[1].Value), match.Groups[1].Value);
+							}
+							break;
+						case 26: //retreat
+							if (m_player.Alive)
+							{
+								AddToLog("-Retreating...");
+								m_player.Retreat(float.Parse(match.Groups[1].Value));
+							}
 							break;
 						case 27: //retreatalt
 							if (m_player.Alive)
 							{
-                                AddToLog("-Retreating..." + match.Groups[2]);
-                                m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
-                            }
+								AddToLog("-Retreating..." + match.Groups[2]);
+								m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
+							}
 							break;
 						case 28: //movealt
 							if (m_player.Alive)
 							{
-                                AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
-                                m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
-                            }
+								AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
+								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
+							}
 							break;
 						case 29: //loot
 						case 30: //check
 						case 31: //scavenge
 							if (m_player.Alive)
 							{
-                                AddToLog("-Scavenging...");
-                                m_player.Loot(int.Parse(match.Groups[1].Value));
+								AddToLog("-Scavenging...");
+								m_player.Loot(int.Parse(match.Groups[1].Value));
 							}
 							break;
-                        case 32: //help
-                        case 33: //whatdoido
-                        case 34: //howdoidothis
-                        case 35: //what
-                        case 36: //whatisgoingon
-                        case 37: //how
-                        case 38: //question 
-                            AddToLog("-Basic commands:");
-                            AddToLog("fire: fire gun at current angle");
-                            AddToLog("scan: search for other tanks");
-                            AddToLog("angle ###: move barrel to given angle");
-                            AddToLog("turn ###: turn tank to given degree");
-                            AddToLog("move (direction) ###: move north, south, east, or west as far as you give it");
-                            AddToLog("retreat ###: move backwards ### away");
-                            AddToLog("loot #: scavenge the remains of another tank using its tank number");
-                            AddToLog("quit: quit game");
-                            break;
+						case 32: //help
+						case 33: //whatdoido
+						case 34: //howdoidothis
+						case 35: //what
+						case 36: //whatisgoingon
+						case 37: //how
+						case 38: //question 
+							AddToLog("-Basic commands:");
+							AddToLog("fire: fire gun at current angle");
+							AddToLog("scan: search for other tanks");
+							AddToLog("angle ###: move barrel to given angle");
+							AddToLog("turn ###: turn tank to given degree");
+							AddToLog("move (direction) ###: move north, south, east, or west as far as you give it");
+							AddToLog("retreat ###: move backwards ### away");
+							AddToLog("loot #: scavenge the remains of another tank using its tank number");
+							AddToLog("quit: quit game");
+							break;
 						case 39: //change weapons
 						case 40: //cartridge change
 						case 41: //loaddifferentrounds
@@ -411,7 +395,10 @@ public class Console : MonoBehaviour
 
 	void ClearConsole()
 	{
-		StartCoroutine(Rolling(m_maxLineCount));
+		for(int i=0;i<m_maxLineCount;i++)
+		{
+			AddToLog("");
+		}
 	}
 
 	public void Quit()

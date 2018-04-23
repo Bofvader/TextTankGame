@@ -14,8 +14,8 @@ public class Tank : MonoBehaviour
 	[SerializeField] protected float m_damage = 40;
 	[SerializeField] protected float m_health = 100;
 	[SerializeField] float m_shotTime = 1.0f;
-	[SerializeField] float m_tankSize = 1.0f;
-	[SerializeField] float m_baseMargin = 5.0f;
+	[SerializeField] float m_size = 1.0f;
+	[SerializeField] float m_errorMargin = 5.0f;
     [SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
@@ -26,9 +26,6 @@ public class Tank : MonoBehaviour
 
 	float m_shotTimer = 0.0f;
 	bool m_isAlive = false;
-
-	float m_size = 0.0f;
-	float m_errorMargin = 0.0f;
 
 	AudioSource m_audio = null;
 
@@ -161,11 +158,11 @@ public class Tank : MonoBehaviour
 	{
 		float rawDistance = (other.transform.position - transform.position).magnitude;
 
-		float walls = m_tankSize;
+		float walls = Size;
 		Tank t = other.GetComponent<Tank>();
 		if (t)
 		{
-			walls += t.m_tankSize;
+			walls += t.Size;
 		}
 	
 		return walls >= rawDistance;
