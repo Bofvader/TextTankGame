@@ -14,7 +14,10 @@ public class Console : MonoBehaviour
 	[SerializeField] AudioClip m_blip = null;
 	[SerializeField] AudioClip m_return = null;
 	[SerializeField] int m_maxLineCount = 10;
-	[SerializeField] float m_loadTime = 1.0f;
+	[SerializeField] float m_loadTime = 3.0f;
+	[SerializeField] float m_waitTime = 0.5f;
+
+	bool m_isRolling = false;
 
 	string[] m_wordList =
 	{
@@ -22,7 +25,7 @@ public class Console : MonoBehaviour
 		"fire", "shoot", //fire
 		"bang", "pow", "pewpew", //fireAlt
 		"scan", "search", "radar", "boopboop", "lookaround", "whatdoyousee", "whatsaroundus","tellmethesituation", "whatsthesituation", //scan
-		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
+		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "aim({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
 		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
         "move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
         "advance({|0?[1-9]|[1-9][0-9]|})", "forward({|0?[1-9]|[1-9][0-9]|})",//advance
@@ -135,9 +138,23 @@ public class Console : MonoBehaviour
 		}
 	}
 
+	private IEnumerator Rolling(int n)
+	{
+		if (n >= 0)
+		{
+			m_isRolling = true;
+			yield return new WaitForSeconds(m_waitTime);
+
+			AddToLog("");
+			Rolling(n - 1);
+		}
+
+		m_isRolling = false;
+	}
+
 	private IEnumerator Loading(int next)
 	{
-		yield return new WaitForSeconds(0.5f);
+		yield return new WaitForSeconds(m_waitTime);
 
 		ClearConsole();
 
@@ -234,86 +251,87 @@ public class Console : MonoBehaviour
 								m_player.Scan();
 							}
 							break;
-						case 18: //aim
+						case 18: //angle
+						case 19: //im
 							if (m_player.Alive)
 							{
 								AddToLog("-Adjusting...");
 								m_player.Angle(int.Parse(match.Groups[1].Value));
 							}
 							break;
-						case 19: //turn
+						case 20: //turn
 							if (m_player.Alive)
 							{
 								AddToLog("-Shifting...");
 								m_player.Turn(int.Parse(match.Groups[1].Value));
 							}
 							break;
-						case 20: //aimalt
+						case 21: //aimalt
 							if (m_player.Alive)
 							{
 								AddToLog("-Aye sir");
 								m_player.Angle(int.Parse(match.Groups[1].Value));
 							}
 							break;
-						case 21: //turnalt
+						case 22: //turnalt
 							if (m_player.Alive)
 							{
 								AddToLog("-Right away sir");
 								m_player.Turn(int.Parse(match.Groups[1].Value));
 							}
 							break;
-						case 22: //move
+						case 23: //move
                             if (m_player.Alive)
                             {
                                 AddToLog("-Moving " + match.Groups[1]);
                                 m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
                             }
                             break;
-                        case 23: //advance							
-                        case 24: //forward - change
+                        case 24: //advance							
+                        case 25: //forward - change
                             if (m_player.Alive)
                             { 
                                 AddToLog("-Advancing");
                                 m_player.Advance(int.Parse(match.Groups[1].Value), match.Groups[1].Value);
                             }
                             break;
-                        case 25: //retreat
+                        case 26: //retreat
 							if (m_player.Alive)
 							{
                                 AddToLog("-Retreating...");
                                 m_player.Retreat(float.Parse(match.Groups[1].Value));
                             }
 							break;
-						case 26: //retreatalt
+						case 27: //retreatalt
 							if (m_player.Alive)
 							{
                                 AddToLog("-Retreating..." + match.Groups[2]);
                                 m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
                             }
 							break;
-						case 27: //movealt
+						case 28: //movealt
 							if (m_player.Alive)
 							{
                                 AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
                                 m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
                             }
 							break;
-						case 28: //loot
-						case 29: //check
-						case 30: //scavenge
+						case 29: //loot
+						case 30: //check
+						case 31: //scavenge
 							if (m_player.Alive)
 							{
                                 AddToLog("-Scavenging...");
                                 m_player.Loot(int.Parse(match.Groups[1].Value));
 							}
 							break;
-                        case 31: //help
-                        case 32: //whatdoido
-                        case 33: //howdoidothis
-                        case 34: //what
-                        case 35: //whatisgoingon
-                        case 36: //how
-                        case 37: //question 
+                        case 32: //help
+                        case 33: //whatdoido
+                        case 34: //howdoidothis
+                        case 35: //what
+                        case 36: //whatisgoingon
+                        case 37: //how
+                        case 38: //question 
                             AddToLog("-Basic commands:");
                             AddToLog("fire: fire gun at current angle");
                             AddToLog("scan: search for other tanks");
@@ -324,49 +342,49 @@ public class Console : MonoBehaviour
                             AddToLog("loot #: scavenge the remains of another tank using its tank number");
                             AddToLog("quit: quit game");
                             break;
-						case 38: //change weapons
-						case 39: //cartridge change
-						case 40: //loaddifferentrounds
+						case 39: //change weapons
+						case 40: //cartridge change
+						case 41: //loaddifferentrounds
 							AddToLog("-Budget cuts have resricted on weapon variety.");
 							break;
-						case 41: //allofthedirections
-						case 42: //howtotanks
-						case 43: //helpme
-						case 44: //whysixpedals
-						case 45: //whyonlyfourpedals
+						case 42: //allofthedirections
+						case 43: //howtotanks
+						case 44: //helpme
+						case 45: //whysixpedals
+						case 46: //whyonlyfourpedals
 							AddToLog("-Woah, calm down there. Focus on the mission.");
 							break;
-						case 46: //fu
-						case 47: //fo
-						case 48: //ub
-						case 49: //fm
+						case 47: //fu
+						case 48: //fo
+						case 49: //ub
+						case 50: //fm
 							AddToLog("-Professionalism please...");
 							break;
-						case 50: //fb
-						case 51: //saa
+						case 51: //fb
+						case 52: //saa
 							AddToLog("-Well, that's not very nice...");
 							break;
-						case 52: //volley
-						case 53: //volleyfire
+						case 53: //volley
+						case 54: //volleyfire
 							AddToLog("-Pew pew pew...pew pew");
 							break;
-						case 54: //butthatschruch
+						case 55: //butthatschruch
 							AddToLog("-Friendly fire on, target locked, firing main cannon.");
 							break;
-						case 55: //exitvehicle
+						case 56: //exitvehicle
 							AddToLog("-I can't let you do that Dave...");
 							break;
-						case 56: //useobject
+						case 57: //useobject
 							AddToLog("-...You are in a tank, sir. You have only this tank.");
 							break;
-						case 57: //greetings
-						case 58: //hi
+						case 58: //greetings
+						case 59: //hi
 							AddToLog("-um, hello? I'm not sure how to respond to that");
 							break;
-						case 59: //health
-						case 60: //howamidoing
-						case 61: //myhealth
-						case 62: //displayhealth
+						case 60: //health
+						case 61: //howamidoing
+						case 62: //myhealth
+						case 63: //displayhealth
 							float health = m_player.Health;
 							AddToLog("-Hull intergity at " + health + " points.");
 							break;
@@ -393,10 +411,7 @@ public class Console : MonoBehaviour
 
 	void ClearConsole()
 	{
-		for (int i = 0; i < m_maxLineCount; i++)
-		{
-			m_displayLog[i] = " ";
-		}
+		StartCoroutine(Rolling(m_maxLineCount));
 	}
 
 	public void Quit()

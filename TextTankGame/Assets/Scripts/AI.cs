@@ -29,12 +29,11 @@ public class AI : Tank
 			{
 				m_isFiring = true;
 				Fire();
-				m_isMoving = false;
-
+				Stop();
 			}
-			else
+			else if(!m_isFiring)
 			{
-				m_isMoving = true;
+				StartedMoving();
 
 				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
 
@@ -67,7 +66,7 @@ public class AI : Tank
 		}
 		else
 		{
-			m_isMoving = false;
+			Stop();
 		}
 	}
 

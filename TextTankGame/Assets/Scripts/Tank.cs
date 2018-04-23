@@ -8,7 +8,7 @@ public class Tank : MonoBehaviour
 	[SerializeField] AudioClip m_moveSound = null;
 	[SerializeField] AudioClip m_deadSound = null;
 	[SerializeField] Vector3 m_spawnPoint;
-	[SerializeField] protected float m_maxSpeedBase = 5.0f;
+	[SerializeField] protected float m_maxSpeed = 5.0f;
 	[SerializeField] protected float m_hitPoints = 100;
 	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] protected float m_damage = 40;
@@ -19,7 +19,6 @@ public class Tank : MonoBehaviour
     [SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
-	protected float m_maxSpeed = 0.0f;
 	protected float m_tiltAngle = 0.0f;
 	protected float m_turnAngle = 0.0f;
     protected Vector3 m_velocity = Vector3.zero;
@@ -41,6 +40,29 @@ public class Tank : MonoBehaviour
 	private void Start()
 	{
 		m_audio = gameObject.GetComponent<AudioSource>();
+	}
+
+	protected void StartedMoving()
+	{
+		m_isMoving = true;
+
+		if (m_audio)
+		{
+			m_audio.clip = m_moveSound;
+			m_audio.loop = true;
+			m_audio.Play();
+		}
+	}
+
+	protected void Stop()
+	{
+		m_isMoving = false;
+
+		if (m_audio)
+		{
+			m_audio.loop = false;
+			m_audio.Stop();
+		}
 	}
 
 	void FixedUpdate()
@@ -75,42 +97,47 @@ public class Tank : MonoBehaviour
 	public virtual void Died()
 	{
 		m_isAlive = false;
+		Stop();
 	}
 
 	public virtual GameObject Fire()
 	{
 		GameObject hit = null;
 
-		PlayGunSound();
 
 		if (ShotReady)
 		{
+			PlayGunSound();
+
 			float distance = ((m_projectileSpeed * m_projectileSpeed) * Mathf.Sin(2 * m_tiltAngle)) / Game.Instance.Gravity;
 			GameObject[] gos = Game.Instance.GetObjectsInRange(this.gameObject, distance, "Tank");
 			
 			foreach(GameObject go in gos)
 			{
-				Vector3 point = go.transform.position - transform.position;
-				float difference = point.magnitude;
-
-				if (difference == distance)
+				if (go != gameObject)
 				{
-					Vector3 north = Vector3.forward * difference;
-					north = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * north;
+					Vector3 point = go.transform.position - transform.position;
+					float difference = point.magnitude;
 
-					float offset = (point - north).magnitude;
-					float test = m_errorMargin;
-					Tank t = go.GetComponent<Tank>();
-					if(t)
+					if (difference == distance)
 					{
-						test += t.Size;
-					}
+						Vector3 north = Vector3.forward * difference;
+						north = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * north;
 
-					if(offset <= test)
-					{
-						hit = go;
-						if (offset <= test - m_errorMargin && t) t.Hit(m_damage);
-						break;
+						float offset = (point - north).magnitude;
+						float test = m_errorMargin;
+						Tank t = go.GetComponent<Tank>();
+						if (t)
+						{
+							test += t.Size;
+						}
+
+						if (offset <= test)
+						{
+							hit = go;
+							if (offset <= test - m_errorMargin && t) t.Hit(m_damage);
+							break;
+						}
 					}
 				}
 			}
@@ -153,20 +180,12 @@ public class Tank : MonoBehaviour
 		}
 	}
 
-	public void MoveSound(bool onOff)
+	public void PlayMoveSound()
 	{
-		if (onOff)
+		if (m_audio)
 		{
-			if (m_audio.clip != m_moveSound)
-			{
-				m_audio.clip = m_moveSound;
-			}
-
-			m_audio.loop = true;
-		}
-		else
-		{
-			m_audio.loop = false;
+			m_audio.clip = m_moveSound;
+			m_audio.Play();
 		}
 	}
 
