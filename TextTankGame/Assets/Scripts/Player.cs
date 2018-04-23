@@ -129,12 +129,46 @@ public class Player : Tank
         }
     }
 
-    public void Retreat(float distance, string speed = "normal")
+	public void Advance(float distance, string speed = "normal")
+	{
+		m_velocity = Vector3.zero;
+
+		m_velocity = Vector3.forward * m_maxSpeed;
+		Quaternion face = Quaternion.Euler(0.0f, m_turnAngle, 0.0f);
+
+		m_velocity = face * m_velocity;
+		m_travelTime = m_velocity.magnitude / distance;
+
+		if (m_velocity.magnitude > 0.0f)
+		{
+			if (speed.CompareTo("halftime") == 0)
+			{
+				m_velocity /= 2.0f;
+				m_travelTime *= 2.0f;
+
+			}
+			else if (speed.CompareTo("doubletime") == 0)
+			{
+				m_velocity *= 2.0f;
+				m_travelTime /= 2.0f;
+			}
+			else if (speed.CompareTo("tripletime") == 0)
+			{
+				m_velocity *= 3.0f;
+				m_travelTime /= 3.0f;
+			}
+		}
+	}
+
+	public void Retreat(float distance, string speed = "normal")
     {
         m_velocity = Vector3.zero;
 
         m_velocity = Vector3.back * m_maxSpeed;
-        m_travelTime = m_velocity.magnitude / distance;
+		Quaternion face = Quaternion.Euler(0.0f, m_turnAngle, 0.0f);
+
+		m_velocity = face * m_velocity;
+		m_travelTime = m_velocity.magnitude / distance;
 
         if (m_velocity.magnitude > 0.0f)
         {
