@@ -15,6 +15,20 @@ public class AI : Tank
 	float m_updateAngle = 0.0f;
 	Vector3 m_path = Vector3.forward;
 
+    public void Start()
+    {
+        SetRange();
+    }
+
+    public void SetRange()
+    {
+        m_range = Mathf.Pow(m_projectileSpeed, 2);
+        float launch = Mathf.Deg2Rad * 45 /*m_tiltAngle*/;
+
+        m_range *= Mathf.Sin(2 * launch);
+        m_range /= Game.Instance.Gravity;
+    }
+
 	protected void Update()
 	{
 
