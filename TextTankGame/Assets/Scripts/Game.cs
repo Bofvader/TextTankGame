@@ -12,6 +12,7 @@ public class Game : Singleton<Game>
 	[SerializeField] float m_level = 1.0f;
 
 	float m_gravity = 0.0f;
+	bool m_gameStarted = false;
 
 	public float Gravity { get { return m_gravity; } }
 	public float Scale { get { return m_scale; } }
@@ -35,9 +36,19 @@ public class Game : Singleton<Game>
 			}
 		}
 
-		if(death == m_spawners.Length)
+		if (m_gameStarted)
 		{
-
+			if (death == m_spawners.Length)
+			{
+				QuiteToMenu();
+				foreach (Tank t in m_actors)
+				{
+					if (t.GetType() == typeof(Player))
+					{
+						(t as Player).BringUpMenu();
+					}
+				}
+			}
 		}
 	}
 
@@ -79,6 +90,8 @@ public class Game : Singleton<Game>
 
 	public void QuiteToMenu()
 	{
+		m_gameStarted = false;
+
 		foreach (Tank t in m_actors)
 		{
 			t.Died();
@@ -96,6 +109,8 @@ public class Game : Singleton<Game>
 		{
 			s.SpawnerOn();
 		}
+
+		m_gameStarted = true;
 	}
 
 	public void ExitGame()

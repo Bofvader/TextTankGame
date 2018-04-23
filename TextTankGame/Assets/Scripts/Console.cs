@@ -33,7 +33,7 @@ public class Console : MonoBehaviour
         "help", "whatdoido", "howdoidothis", "what", "whatisgoingon", "how", "question", //help
 		"changeweapons", "cartridgechange", "loaddifferentrounds", //weapon change
 		"allofthedirections", "howtotanks", "helpme", "whysixpedals", "whyonlyfourpedals", //panic
-		"fuckyou", "fuckoff",  "youbitch", "fuckingbitch", "suchanasshole",  //cussing
+		"fuckyou", "fuckoff", "fuckme", "youbitch", "fuckingbitch", "suchanasshole",  //cussing
 		"volley", "volleyfire", "butthatschruch", "exitvehicle", "useobject", "greetings", "hi", //easter eggs
 		"([0-9])" //menu controls
 	};
@@ -328,27 +328,28 @@ public class Console : MonoBehaviour
 						case 46: //fu
 						case 47: //fo
 						case 48: //ub
+						case 49: //fm
 							AddToLog("-Professionalism please...");
 							break;
-						case 49: //fb
-						case 50: //saa
+						case 50: //fb
+						case 51: //saa
 							AddToLog("-Well, that's not very nice...");
 							break;
-						case 51: //volley
-						case 52: //volleyfire
+						case 52: //volley
+						case 53: //volleyfire
 							AddToLog("-Pew pew pew...pew pew");
 							break;
-						case 53: //butthatschruch
+						case 54: //butthatschruch
 							AddToLog("-Friendly fire on, target locked, firing main cannon.");
 							break;
-						case 54: //exitvehicle
+						case 55: //exitvehicle
 							AddToLog("-I can't let you do that Dave...");
 							break;
-						case 55: //useobject
+						case 56: //useobject
 							AddToLog("-...You are in a tank, sir. You have only this tank.");
 							break;
-						case 56: //greetings
-						case 57: //hi
+						case 57: //greetings
+						case 58: //hi
 							AddToLog("-um, hello? I'm not sure how to respond to that");
 							break;
 						default:
@@ -380,7 +381,7 @@ public class Console : MonoBehaviour
 		}
 	}
 
-	void Quit()
+	public void Quit()
 	{
 		if (m_quiting)
 		{

@@ -24,6 +24,12 @@ public class Player : Tank
 		}
 	}
 
+	public void BringUpMenu()
+	{
+		m_console.Quit();
+		m_console.Quit();
+	}
+
 	public override GameObject Fire()
 	{
         GameObject result = base.Fire();
