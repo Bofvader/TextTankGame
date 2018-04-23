@@ -137,7 +137,7 @@ public class Console : MonoBehaviour
 		}
 	}
 
-	private IEnumerator Loading(int next)
+	public IEnumerator Loading(int next = 0)
 	{
 		yield return new WaitForSeconds(m_waitTime);
 
@@ -202,6 +202,10 @@ public class Console : MonoBehaviour
 						case 1: //leave
 						case 2: //fullretreat
 						case 3: //surrender
+							if(!m_quiting)
+							{
+								AddToLog("-Are we really leaving?");
+							}
 							Quit();
 							break;
 						case 4: //fire
@@ -419,7 +423,6 @@ public class Console : MonoBehaviour
 		else
 		{
 			m_quiting = true;
-			AddToLog("-Are we really leaving?");
 		}
 	}
 

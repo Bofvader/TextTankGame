@@ -35,8 +35,10 @@ public class Player : Tank
 
 	public void BringUpMenu()
 	{
+		m_console.LogMessage("Round over");
 		m_console.Quit();
 		m_console.Quit();
+		StartCoroutine(m_console.Loading());
 	}
 
 	public override GameObject Fire()
@@ -98,9 +100,12 @@ public class Player : Tank
         base.Spawn();
     }
 
-    public override void Died()
+    public override void Died(bool actualDeath)
     {
-        m_console.LogMessage("-Happy commander? We're more like swiss cheese than a tank.");
+		if (actualDeath)
+		{
+			m_console.LogMessage("-Happy commander? We're more like swiss cheese than a tank.");
+		}
         base.Died();
     }
 

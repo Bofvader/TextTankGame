@@ -158,6 +158,7 @@ MonoBehaviour:
   m_spawnSpeed: 0
   m_maxPopulation: 1
   m_spawnAmount: 3
+  m_isAlive: 1
 --- !u!1 &253615131
 GameObject:
   m_ObjectHideFlags: 0
@@ -382,12 +383,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
       propertyPath: m_maxSpeedBase
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_maxSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_range
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
@@ -913,6 +924,7 @@ MonoBehaviour:
   m_spawnSpeed: 0
   m_maxPopulation: 3
   m_spawnAmount: 1
+  m_isAlive: 1
 --- !u!4 &1013627490
 Transform:
   m_ObjectHideFlags: 0
@@ -1076,7 +1088,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
@@ -4823,7 +4835,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1402118729}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 317165843f270254b8f1b4510f24a34a, type: 3}
   m_Name: 

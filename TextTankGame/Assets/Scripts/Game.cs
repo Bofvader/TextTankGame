@@ -25,8 +25,6 @@ public class Game : Singleton<Game>
 			int death = 0;
 			foreach (Spawner s in m_spawners)
 			{
-				Debug.Log(s.name + " is " + s.Alive);
-
 				if (!s.Alive)
 				{
 					++death;
@@ -89,7 +87,7 @@ public class Game : Singleton<Game>
 
 		foreach (Tank t in m_actors)
 		{
-			t.Died();
+			t.Died(false);
 		}
 
 		foreach (Spawner s in m_spawners)

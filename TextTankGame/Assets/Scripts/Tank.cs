@@ -23,7 +23,7 @@ public class Tank : MonoBehaviour
 	protected Vector3 m_velocity = Vector3.zero;
 	protected bool m_isMoving = false;
 	protected float m_shotTimer = 0.0f;
-	public float m_health = 100;
+	protected float m_health = 100;
 
 	bool m_isAlive = false;
 
@@ -73,7 +73,7 @@ public class Tank : MonoBehaviour
 
 			if (m_health <= 0.0f)
 			{
-				Died();
+				Died(true);
 				PlayDieSound();
 			}
 		}
@@ -92,7 +92,7 @@ public class Tank : MonoBehaviour
 		transform.position = m_spawnPoint;
 	}
 
-	public virtual void Died()
+	public virtual void Died(bool actualDeath = false)
 	{
 		m_isAlive = false;
 		Stop();
