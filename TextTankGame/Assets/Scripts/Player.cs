@@ -57,18 +57,20 @@ public class Player : Tank
 					travel *= Mathf.Sin(2 * launch);
 					travel /= Game.Instance.Gravity;
 
-					Vector3 path = Vector3.forward * travel;
+					int limit = (int)travel;
+
+					Vector3 path = Vector3.forward * limit;
 					path = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * path;
 
-					float distance = (result.transform.position - path).magnitude - enemy.Size;
+					int distance = (int)((result.transform.position - path).magnitude - enemy.Size);
 					Debug.Log(distance);
 
-					if (distance <= m_closeHit && distance > 0)
+					if (distance <= (int)m_closeHit && distance > 0)
 					{
 						m_console.LogMessage("--Your shot was close, but you only grazed their tank.");
 
 					}
-					else if (distance <= m_inVicinity && distance > m_closeHit)
+					else if (distance <= (int)m_inVicinity && distance > m_closeHit)
 					{
 						m_console.LogMessage("--You've got them shacking in fear, but no real damage was done.");
 					}
