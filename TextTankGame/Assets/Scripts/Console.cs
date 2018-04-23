@@ -21,7 +21,7 @@ public class Console : MonoBehaviour
 		"quit", "leave", "fullretreat", "surrender", //quit
 		"fire", "shoot", //fire
 		"bang", "pow", "pewpew", //fireAlt
-		"scan", "search", "radar", "boopboop", "lookaround", "whatdoyousee", "whatsaaroundus","tellmethesituation", "whatsthesituation", //scan
+		"scan", "search", "radar", "boopboop", "lookaround", "whatdoyousee", "whatsaroundus","tellmethesituation", "whatsthesituation", //scan
 		"angle({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "turn({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aim
 		"elevation({|0?[1-9]|[1-9][0-9]|1[0-7][0-9]|})", "direction({|0?[1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-9][0-9]|3[0-5][0-9]|})", //aimAlt
         "move({|north|east|south|west|})({|0?[1-9]|[1-9][0-9]|})", //move
