@@ -28,6 +28,9 @@ public class AI : Tank
 			if(InRangeOfTarget())
 			{
 				m_isFiring = true;
+
+				Debug.Log("Within range");
+
 				Fire();
 				Stop();
 			}
