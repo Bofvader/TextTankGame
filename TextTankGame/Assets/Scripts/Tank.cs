@@ -81,6 +81,8 @@ public class Tank : MonoBehaviour
 	{
 		GameObject hit = null;
 
+		PlayGunSound();
+
 		if (ShotReady)
 		{
 			float distance = ((m_projectileSpeed * m_projectileSpeed) * Mathf.Sin(2 * m_tiltAngle)) / Game.Instance.Gravity;
