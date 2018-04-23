@@ -5,7 +5,7 @@ using UnityEngine;
 public class AI : Tank
 {
 	[SerializeField] GameObject m_target = null;
-	[SerializeField] float m_firingRange = 1.0f;
+	[SerializeField] float m_range = 1.0f;
 	[SerializeField] float m_updateTime = 3.0f;
 	[SerializeField] float m_updateRatio = 3.0f;
 
@@ -13,12 +13,10 @@ public class AI : Tank
 	bool m_wasHit = false;
 	float m_updateTimer = 0.0f;
 	float m_updateAngle = 0.0f;
-	float m_range = 0.0f;
 	Vector3 m_path = Vector3.forward;
 
 	protected void Update()
 	{
-		m_range = m_firingRange * Game.Instance.Scale;
 
 		if (Alive)
 		{
@@ -112,7 +110,7 @@ public class AI : Tank
 		Vector3 offset = m_target.transform.position - transform.position;
 		float distance = offset.magnitude;
 
-		return m_firingRange >= distance;
+		return m_range >= distance;
 	}
 
 	public override GameObject Fire()

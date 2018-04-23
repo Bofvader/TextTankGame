@@ -57,7 +57,7 @@ public class Spawner : MonoBehaviour
 
 			if(population == 0)
 			{
-				m_isDead[2] = true;
+				m_isDead[1] = true;
 			}
 		}
 	}

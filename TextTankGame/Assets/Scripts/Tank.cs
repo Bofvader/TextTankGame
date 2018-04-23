@@ -43,10 +43,6 @@ public class Tank : MonoBehaviour
 
 	void FixedUpdate()
 	{
-		m_size = m_tankSize * Game.Instance.Scale;
-		m_errorMargin = m_baseMargin * Game.Instance.Scale;
-		m_maxSpeed = m_maxSpeedBase * Game.Instance.Scale;
-
 		if (Alive)
 		{
 			if (m_shotTimer < m_shotTime)
@@ -132,7 +128,7 @@ public class Tank : MonoBehaviour
 
 	public bool Colliding(GameObject other)
 	{
-		float rawDistance = (other.transform.position - transform.position).magnitude * Game.Instance.Scale;
+		float rawDistance = (other.transform.position - transform.position).magnitude;
 
 		float walls = m_tankSize;
 		Tank t = other.GetComponent<Tank>();
@@ -140,8 +136,8 @@ public class Tank : MonoBehaviour
 		{
 			walls += t.m_tankSize;
 		}
-
-		return walls * Game.Instance.Scale >= rawDistance;
+	
+		return walls >= rawDistance;
 	}
 
 	public void PlayGunSound()
