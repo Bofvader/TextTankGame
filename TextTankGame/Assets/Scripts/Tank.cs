@@ -12,6 +12,7 @@ public class Tank : MonoBehaviour
 	[SerializeField] protected float m_hitPoints = 100;
 	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] protected float m_damage = 40;
+	[SerializeField] protected float m_health = 100;
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_tankSize = 1.0f;
 	[SerializeField] float m_baseMargin = 5.0f;
@@ -35,6 +36,7 @@ public class Tank : MonoBehaviour
 	public bool Alive { get { return m_isAlive; } }
 	public bool ShotReady { get { return m_shotTimer >= m_shotTime; } }
 	public float Size { get { return m_size; } }
+	public float Health { get { return m_health; } }
 
 	private void Start()
 	{

@@ -155,8 +155,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_spawns:
   - {fileID: 1363234829}
-  m_spawnSpeed: 5
-  m_maxPopulation: 3
+  m_spawnSpeed: 0
+  m_maxPopulation: 1
   m_spawnAmount: 3
 --- !u!1 &253615131
 GameObject:
@@ -382,6 +382,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_maxSpeedBase
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -612,7 +617,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
@@ -1128,6 +1133,11 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_maxSpeedBase
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:

@@ -35,6 +35,7 @@ public class Console : MonoBehaviour
 		"allofthedirections", "howtotanks", "helpme", "whysixpedals", "whyonlyfourpedals", //panic
 		"fuckyou", "fuckoff", "fuckme", "youbitch", "fuckingbitch", "suchanasshole",  //cussing
 		"volley", "volleyfire", "butthatschruch", "exitvehicle", "useobject", "greetings", "hi", //easter eggs
+		"health", "howamidoing", "myhealth", "displayhealth", //health
 		"([0-9])" //menu controls
 	};
 
@@ -54,13 +55,7 @@ public class Console : MonoBehaviour
 		m_displayLog = new string[m_maxLineCount];
 
 		ClearConsole();
-		AddToLog("Tactical Texting");
-		for(int i=1;i<m_maxLineCount-2;i++)
-		{
-			AddToLog("");
-		}
-		AddToLog("0 - Play");
-		AddToLog("2 - Exit");
+		DisplayMenu();
 	}
 
 	void Update()
@@ -76,7 +71,24 @@ public class Console : MonoBehaviour
 		}
 	}
 
-    private void SetUpLan()
+	private void DisplayMenu()
+	{
+		AddToLog("Tactical Texting");
+		for(int i = 1; i < m_maxLineCount - 8; i++)
+		{
+			AddToLog("");
+		}												                          
+		AddToLog(@"                |O|======[NHHXHHN]P");
+		AddToLog(@"               ________/_______l___");
+		AddToLog(@"             /____________________|D");
+		AddToLog(@"             `*(@)(@)(@)(@)(@)(@)(@)*");
+		AddToLog(@"               """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""");
+		AddToLog("");
+		AddToLog(">>0 - Play");
+		AddToLog(">>1 - Exit");
+	}
+
+	private void SetUpLan()
     {
 
     }
@@ -139,8 +151,7 @@ public class Console : MonoBehaviour
 		switch(m_selectedMenu)
 		{
 			case 0:
-				AddToLog(">>0 - Play");
-				AddToLog(">>1 - Exit");
+				DisplayMenu();
 				break;
 			case 1:
 				AddToLog(">>Operation start<<");
@@ -351,6 +362,13 @@ public class Console : MonoBehaviour
 						case 57: //greetings
 						case 58: //hi
 							AddToLog("-um, hello? I'm not sure how to respond to that");
+							break;
+						case 59: //health
+						case 60: //howamidoing
+						case 61: //myhealth
+						case 62: //displayhealth
+							float health = m_player.Health;
+							AddToLog("-Hull intergity at " + health + " points.");
 							break;
 						default:
 							AddToLog("-I'm sorry, I don't know what to do.");
