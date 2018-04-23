@@ -32,6 +32,7 @@ public class Console : MonoBehaviour
 		"loot([0-9])", "check([0-9])", "scavenge([0-9])", //loot
         "help", "whatdoido", "howdoidothis", "what", "whatisgoingon", "how", "question", //help
 		"changeweapons", "cartridgechange", "loaddifferentrounds", //weapon change
+		"allofthedirections", "howtotanks", 
 		"([0-9])" //menu controls
 	};
 
@@ -51,7 +52,11 @@ public class Console : MonoBehaviour
 		m_displayLog = new string[m_maxLineCount];
 
 		ClearConsole();
-
+		AddToLog("");
+		for(int i=1;i<m_maxLineCount-2;i++)
+		{
+			AddToLog("");
+		}
 		AddToLog("0 - Play");
 		AddToLog("2 - Exit");
 	}
