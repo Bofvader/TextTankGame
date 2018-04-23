@@ -15,25 +15,6 @@ public class AI : Tank
 	float m_updateAngle = 0.0f;
 	Vector3 m_path = Vector3.forward;
 
-    public void Start()
-    {
-        SetRange();
-    }
-
-    public void SetRange()
-    {
-        float newRange = Mathf.Pow(m_projectileSpeed, 2);
-        float launch = Mathf.Deg2Rad * 45 /*m_tiltAngle*/;
-
-        newRange *= Mathf.Sin(launch);
-        newRange /= Game.Instance.Gravity;
-
-        if(newRange > m_range)
-        {
-            m_range = newRange;
-        }
-    }
-
 	protected void Update()
 	{
 		if (Alive)
@@ -45,8 +26,6 @@ public class AI : Tank
 
 			if(InRangeOfTarget())
 			{
-				m_isFiring = true;
-
 				Debug.Log("Within range");
 
 				Fire();
@@ -140,17 +119,27 @@ public class AI : Tank
 
 		if(ShotReady)
 		{
-			StartCoroutine(TravelTime(distance, offset));
-
-			if(m_wasHit)
+			if (!m_isFiring)
 			{
-				m_wasHit = false;
-				go = m_target;
+				m_shotTimer = 0.0f;
 
-				Tank t = m_target.GetComponent<Tank>();
-				if(t)
+				Debug.Log("Is firing");
+				m_isFiring = true;
+				PlayGunSound();
+				StartCoroutine(TravelTime(distance, offset));
+
+				if (m_wasHit)
 				{
-					t.Hit(m_damage);
+					Debug.Log("Target was hit");
+
+					m_wasHit = false;
+					go = m_target;
+
+					Tank t = m_target.GetComponent<Tank>();
+					if (t)
+					{
+						t.Hit(m_damage);
+					}
 				}
 			}
 		}
@@ -160,9 +149,13 @@ public class AI : Tank
 
 	IEnumerator TravelTime(float distance, Vector3 targetPosition)
 	{
-		float time = distance * m_projectileSpeed;
+		float time = distance / m_projectileSpeed;
+
+		Debug.Log("Start travel");
 
 		yield return new WaitForSeconds(time);
+
+		Debug.Log("End travel");
 
 		Vector3 actual = m_target.transform.position - transform.position;
 		float difference = (actual - targetPosition).magnitude;
@@ -176,5 +169,7 @@ public class AI : Tank
 		{
 			m_wasHit = true;
 		}
+
+		m_isFiring = false;
 	}
 }

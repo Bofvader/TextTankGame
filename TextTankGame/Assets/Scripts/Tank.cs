@@ -11,7 +11,7 @@ public class Tank : MonoBehaviour
 	[SerializeField] protected float m_maxSpeed = 5.0f;
 	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] protected float m_damage = 40;
-	[SerializeField] protected float m_health = 100;
+	[SerializeField] protected float m_maxhealth = 100;
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_size = 1.0f;
 	[SerializeField] float m_errorMargin = 5.0f;
@@ -22,8 +22,9 @@ public class Tank : MonoBehaviour
 	protected float m_turnAngle = 0.0f;
 	protected Vector3 m_velocity = Vector3.zero;
 	protected bool m_isMoving = false;
+	protected float m_shotTimer = 0.0f;
+	protected float m_health = 100;
 
-	float m_shotTimer = 0.0f;
 	bool m_isAlive = false;
 
 	AudioSource m_audio = null;
@@ -87,6 +88,7 @@ public class Tank : MonoBehaviour
 	public virtual void Spawn()
 	{
 		m_isAlive = true;
+		m_health = m_maxhealth;
 		transform.position = m_spawnPoint;
 	}
 
