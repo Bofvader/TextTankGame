@@ -9,17 +9,18 @@ public class Spawner : MonoBehaviour
 	[SerializeField] int m_maxPopulation = 3;
 	[SerializeField] int m_spawnAmount = 4;
 
-	bool[] m_isDead = new bool[2]; //limit reached, all units are dead
+	public bool m_isAlive = true;
 	bool m_isSpawning = false;
 	float m_spawnTimer = 0.0f;
 	int m_amount = 0;
 
-	public bool[] Alive { get { return m_isDead; } }
+	public bool Alive { get { return m_isAlive; } }
 
 	void Update()
 	{
-		if (m_isSpawning)
+		if (Game.Instance.Started)
 		{
+
 			int population = 0;
 			foreach (Tank t in m_spawns)
 			{
@@ -29,42 +30,54 @@ public class Spawner : MonoBehaviour
 				}
 			}
 
-			if (m_spawnTimer >= m_spawnSpeed)
+			if (!m_isSpawning && population == 0)
 			{
-				if (population < m_maxPopulation)
+				m_isAlive = false;
+			}
+
+			if (m_isSpawning)
+			{
+				if (m_amount < m_spawnAmount)
 				{
-					foreach (Tank t in m_spawns)
+					if (population < m_maxPopulation)
 					{
-						if (!t.Alive)
+						if (m_spawnTimer >= m_spawnSpeed)
 						{
-							t.Spawn();
-							m_spawnTimer = 0.0f;
-							++m_amount;
+							foreach (Tank t in m_spawns)
+							{
+								if (!t.Alive)
+								{
+									t.Spawn();
+									++m_amount;
+									break;
+								}
+							}
+						}
+						else
+						{
+							m_spawnTimer += Time.deltaTime;
 						}
 					}
 				}
-			}
-			else
-			{
-				m_spawnTimer += Time.deltaTime;
-			}
-
-			if (m_amount >= m_spawnAmount)
-			{
-				m_isDead[0] = true;
-				SpawnerOff();
-			}
-
-			if(population == 0)
-			{
-				m_isDead[1] = true;
+				else
+				{
+					SpawnerOff();
+				}
 			}
 		}
 	}
 
+	public void Reset()
+	{
+		m_isAlive = true;
+		m_isSpawning = false;
+		m_spawnTimer = 0.0f;
+		m_amount = 0;
+	}
+
 	public void SpawnerOn()
 	{
-		m_isSpawning =  true;
+		m_isSpawning = true;
 	}
 
 	public void SpawnerOff()

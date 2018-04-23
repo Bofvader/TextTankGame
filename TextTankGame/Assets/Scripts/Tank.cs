@@ -23,7 +23,7 @@ public class Tank : MonoBehaviour
 	protected Vector3 m_velocity = Vector3.zero;
 	protected bool m_isMoving = false;
 	protected float m_shotTimer = 0.0f;
-	protected float m_health = 100;
+	public float m_health = 100;
 
 	bool m_isAlive = false;
 
@@ -149,7 +149,7 @@ public class Tank : MonoBehaviour
 						if (offset <= test)
 						{
 							hit = go;
-							if (offset <= test - m_errorMargin && t)
+							if (offset <= test - (int)m_errorMargin && t)
 							{
 								t.Hit(m_damage);
 							}

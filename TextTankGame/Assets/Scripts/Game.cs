@@ -14,6 +14,7 @@ public class Game : Singleton<Game>
 
 	public float Gravity { get { return m_gravity; } }
 	public float Level { get { return m_level; } }
+	public bool Started { get { return m_gameStarted; } }
 
 	void Update()
 	{
@@ -24,13 +25,15 @@ public class Game : Singleton<Game>
 			int death = 0;
 			foreach (Spawner s in m_spawners)
 			{
-				if (!s.Alive[0] && !s.Alive[1])
+				Debug.Log(s.name + " is " + s.Alive);
+
+				if (!s.Alive)
 				{
 					++death;
 				}
 			}
 
-			if (death == m_spawners.Length)
+			if (death == m_spawners.Length - 1)
 			{
 				QuiteToMenu();
 				foreach (Tank t in m_actors)
@@ -92,6 +95,7 @@ public class Game : Singleton<Game>
 		foreach (Spawner s in m_spawners)
 		{
 			s.SpawnerOff();
+			s.Reset();
 		}
 	}
 
