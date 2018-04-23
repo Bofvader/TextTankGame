@@ -34,12 +34,11 @@ public class AI : Tank
 			}
 			else
 			{
-
 				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
 
 				Vector3 velocity = Vector3.zero;
 				velocity = m_path * m_speed * Time.deltaTime;
-
+				Debug.Log(velocity.x + ", " + velocity.y + ", " + velocity.z);
 				transform.position = transform.position + velocity;
 
 				float distanceNow = (m_target.transform.position - transform.position).magnitude;

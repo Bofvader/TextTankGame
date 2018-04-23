@@ -35,8 +35,6 @@ public class Tank : MonoBehaviour
 		m_errorMargin = m_baseMargin * Game.Instance.Scale;
 		m_maxSpeed = m_maxSpeedBase * Game.Instance.Scale;
 
-		Debug.Log(m_maxSpeed + " " + m_maxSpeedBase + " " + Game.Instance.Scale);
-
 		if (m_isAlive)
 		{
 			if (m_shotTimer < m_shotTime)
