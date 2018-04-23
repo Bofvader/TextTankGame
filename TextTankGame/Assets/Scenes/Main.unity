@@ -383,7 +383,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
@@ -524,7 +524,7 @@ Prefab:
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
       propertyPath: m_range
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
@@ -559,7 +559,7 @@ Prefab:
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
       propertyPath: m_maxSpeed
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 82063859105497918, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
@@ -950,9 +950,9 @@ MonoBehaviour:
   - {fileID: 745797072}
   - {fileID: 1218220828}
   - {fileID: 460513462}
-  m_spawnSpeed: 0
+  m_spawnSpeed: 2
   m_maxPopulation: 3
-  m_spawnAmount: 1
+  m_spawnAmount: 5
   m_isAlive: 1
 --- !u!4 &1013627490
 Transform:
@@ -1117,12 +1117,22 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1181298153770368, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
         type: 2}
       propertyPath: m_maxSpeedBase
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_maxSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_range
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
@@ -5015,6 +5025,8 @@ MonoBehaviour:
   m_actors:
   - {fileID: 1363234829}
   - {fileID: 745797072}
+  - {fileID: 1218220828}
+  - {fileID: 460513462}
   m_gravity: 9.8
   m_level: 1
   m_endingTime: 2
