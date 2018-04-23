@@ -12,6 +12,7 @@ public class Tank : MonoBehaviour
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_tankSize = 1.0f;
 	[SerializeField] float m_baseMargin = 5.0f;
+    [SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
 	protected float m_maxSpeed = 0.0f;

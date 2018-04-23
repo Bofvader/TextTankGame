@@ -76,12 +76,14 @@ public class Player : Tank
     public override void Hit(float damage)
     {
         m_console.LogMessage("-We've been hit! Take them down quickly");
+        CameraController.Instance.Shake(m_screenShake);
         base.Hit(damage);
     }
 
     public override void Collision()
     {
         m_console.LogMessage("-You've slammed into something! You're lucky we don't have any new holes!");
+        CameraController.Instance.Shake(m_screenShake);
         base.Collision();
     }
 
@@ -372,5 +374,4 @@ public class Player : Tank
 
         m_console.LogMessage("We've rotated the tank's barrel to " + angle + "degrees");
     }
-    //loot, move, retreat, scan, turn, angle, 
 }
