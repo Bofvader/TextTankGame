@@ -17,10 +17,12 @@ public class Player : Tank
 		{
 			transform.position += (m_velocity * Time.deltaTime);
 			m_travelTime -= Time.deltaTime;
+			m_isMoving = true;
 		}
 		else
 		{
 			m_velocity = Vector3.zero;
+			m_isMoving = false;
 		}
 	}
 

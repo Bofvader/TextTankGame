@@ -31,9 +31,13 @@ public class AI : Tank
 			{
 				m_isFiring = true;
 				Fire();
+				m_isMoving = false;
+
 			}
 			else
 			{
+				m_isMoving = true;
+
 				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
 
 				Vector3 velocity = Vector3.zero;
@@ -62,6 +66,10 @@ public class AI : Tank
 					m_updateTimer += Time.deltaTime;
 				}
 			}
+		}
+		else
+		{
+			m_isMoving = false;
 		}
 	}
 
