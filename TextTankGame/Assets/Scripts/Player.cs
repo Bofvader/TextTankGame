@@ -51,14 +51,24 @@ public class Player : Tank
 			{
 				if (enemy != this)
 				{
-					float distance = (result.transform.position - transform.position).magnitude;
+					float travel = Mathf.Pow(m_projectileSpeed, 2);
+					float launch = Mathf.Deg2Rad * m_tiltAngle;
 
-					if (distance < m_closeHit)
+					travel *= Mathf.Sin(2 * launch);
+					travel /= Game.Instance.Gravity;
+
+					Vector3 path = Vector3.forward * travel;
+					path = Quaternion.Euler(0.0f, m_turnAngle, 0.0f) * path;
+
+					float distance = (result.transform.position - path).magnitude;
+					Debug.Log(distance);
+
+					if (distance <= m_closeHit && distance > 0)
 					{
 						m_console.LogMessage("--Your shot was close, but you only grazed their tank.");
 
 					}
-					else if (distance < m_inVicinity)
+					else if (distance <= m_inVicinity && distance > m_closeHit)
 					{
 						m_console.LogMessage("--You've got them shacking in fear, but no real damage was done.");
 					}
@@ -136,7 +146,7 @@ public class Player : Tank
                     else if (num == 2)
                     {
                         m_console.LogMessage("You found some tank plating that we could use for ourselves!");
-                        m_hitPoints += m_damage;
+						m_health += m_damage;
 
                     }
                     else

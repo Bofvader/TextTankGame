@@ -9,19 +9,18 @@ public class Tank : MonoBehaviour
 	[SerializeField] AudioClip m_deadSound = null;
 	[SerializeField] Vector3 m_spawnPoint;
 	[SerializeField] protected float m_maxSpeed = 5.0f;
-	[SerializeField] protected float m_hitPoints = 100;
 	[SerializeField] protected float m_projectileSpeed = 40;
 	[SerializeField] protected float m_damage = 40;
 	[SerializeField] protected float m_health = 100;
 	[SerializeField] float m_shotTime = 1.0f;
 	[SerializeField] float m_size = 1.0f;
 	[SerializeField] float m_errorMargin = 5.0f;
-    [SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
+	[SerializeField] [Range(0.0f, 10.0f)] protected float m_screenShake = .5f;
 
 	protected float m_speed = 0.0f;
 	protected float m_tiltAngle = 1.0f;
 	protected float m_turnAngle = 0.0f;
-    protected Vector3 m_velocity = Vector3.zero;
+	protected Vector3 m_velocity = Vector3.zero;
 	protected bool m_isMoving = false;
 
 	float m_shotTimer = 0.0f;
@@ -71,7 +70,7 @@ public class Tank : MonoBehaviour
 				m_shotTimer += Time.deltaTime;
 			}
 
-			if (m_hitPoints <= 0.0f)
+			if (m_health <= 0.0f)
 			{
 				Died();
 				PlayDieSound();
@@ -148,13 +147,16 @@ public class Tank : MonoBehaviour
 						if (offset <= test)
 						{
 							hit = go;
-							if (offset <= test - m_errorMargin && t) t.Hit(m_damage);
+							if (offset <= test - m_errorMargin && t)
+							{
+								t.Hit(m_damage);
+							}
 							break;
 						}
 					}
 				}
 			}
-			  
+
 		}
 
 		return hit;
@@ -162,7 +164,7 @@ public class Tank : MonoBehaviour
 
 	public virtual void Hit(float damage)
 	{
-		m_hitPoints -= damage;
+		m_health -= damage;
 	}
 
 	public virtual void Collision()
@@ -180,13 +182,13 @@ public class Tank : MonoBehaviour
 		{
 			walls += t.Size;
 		}
-	
+
 		return walls >= rawDistance;
 	}
 
 	public void PlayGunSound()
 	{
-		if(m_gun)
+		if (m_gun)
 		{
 			m_gun.Play();
 		}
