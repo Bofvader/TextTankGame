@@ -455,7 +455,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &539149535
 Prefab:
@@ -1161,7 +1161,7 @@ Transform:
   m_LocalScale: {x: 0.29116905, y: 0.2911691, z: 0.2911691}
   m_Children: []
   m_Father: {fileID: 1379034830}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!199 &1309814103
 ParticleSystemRenderer:
@@ -1277,7 +1277,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1395378457
+  randomSeed: 2064378177
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4740,6 +4740,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1402118733}
   - component: {fileID: 1402118732}
+  - component: {fileID: 1402118734}
   - component: {fileID: 1402118731}
   - component: {fileID: 1402118730}
   m_Layer: 0
@@ -4811,8 +4812,23 @@ Transform:
   m_Children:
   - {fileID: 1009001207}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 17.082, y: 180.00002, z: 0}
+--- !u!114 &1402118734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1402118729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317165843f270254b8f1b4510f24a34a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_target: {fileID: 0}
+  m_response: 1
+  m_shakeAmplitude: 1
+  m_shakeRate: 1
 --- !u!1 &1505014660 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1023724722111336, guid: 0906c43d4a05b5642811967c2d8f78dd,
