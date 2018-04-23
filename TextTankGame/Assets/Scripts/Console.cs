@@ -269,7 +269,7 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 								AddToLog("-Moving " + match.Groups[1]);
-								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value));
+								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value));
 							}
 							break;
 						case 24: //advance							
@@ -284,21 +284,21 @@ public class Console : MonoBehaviour
 							if (m_player.Alive)
 							{
 								AddToLog("-Retreating...");
-								m_player.Retreat(float.Parse(match.Groups[1].Value));
+								m_player.Retreat(int.Parse(match.Groups[1].Value));
 							}
 							break;
 						case 27: //retreatalt
 							if (m_player.Alive)
 							{
 								AddToLog("-Retreating..." + match.Groups[2]);
-								m_player.Retreat(float.Parse(match.Groups[1].Value), match.Groups[2].Value);
+								m_player.Retreat(int.Parse(match.Groups[1].Value), match.Groups[2].Value);
 							}
 							break;
 						case 28: //movealt
 							if (m_player.Alive)
 							{
 								AddToLog("-Moving " + match.Groups[1] + " " + match.Groups[3]);
-								m_player.Move(match.Groups[1].Value, float.Parse(match.Groups[2].Value), match.Groups[3].Value);
+								m_player.Move(match.Groups[1].Value, int.Parse(match.Groups[2].Value), match.Groups[3].Value);
 							}
 							break;
 						case 29: //loot
