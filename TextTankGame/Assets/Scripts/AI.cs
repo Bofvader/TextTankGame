@@ -7,11 +7,19 @@ public class AI : Tank
 	[SerializeField] GameObject m_target = null;
 	[SerializeField] float m_firingRange = 1.0f;
 	[SerializeField] float m_updateTime = 3.0f;
+	[SerializeField] float m_updateRatio = 3.0f;
 
 	bool m_isFiring = false;
 	bool m_wasHit = false;
 	float m_updateTimer = 0.0f;
-	Vector3 m_path = Vector3.zero;
+	float m_updateAngle = 0.0f;
+	float m_range = 0.0f;
+	Vector3 m_path = Vector3.forward;
+
+	private void Start()
+	{
+		m_range = m_firingRange * Game.Instance.Scale;
+	}
 
 	void Update()
 	{
@@ -29,21 +37,21 @@ public class AI : Tank
 
 				float distanceFrom = (m_target.transform.position - transform.position).magnitude;
 
-				Debug.Log(distanceFrom + " " + m_path.x + " " + m_path.y + " " + m_path.z);
-
 				Vector3 velocity = m_path;
 				velocity = velocity.normalized * m_speed * Time.deltaTime;
 				transform.position = transform.position + velocity;
 
 				float distanceNow = (m_target.transform.position - transform.position).magnitude;
 
-				if(distanceFrom < distanceNow && m_updateTimer >= m_updateTime)
+				if (m_updateTimer >= m_updateTime)
 				{
-					m_path = Meander();
-					m_updateTimer = 0.0f;
+					if (distanceNow >= distanceFrom)
+					{
+						m_path = Meander();
+						m_updateTimer = 0.0f;
+					}
 				}
-
-				if(m_updateTimer < m_updateTime)
+				else
 				{
 					m_updateTimer += Time.deltaTime;
 				}
@@ -51,13 +59,19 @@ public class AI : Tank
 		}
 	}
 
+	public override void Spawn()
+	{
+		base.Spawn();
+		m_updateTimer = m_updateTime;
+	}
+
 	Vector3 Meander()
 	{
-		Vector2 start = Random.insideUnitCircle;
-		Vector3 path = Vector3.zero;
-		path.x = start.x;
-		path.y = Game.Instance.Level;
-		path.z = start.y;
+
+		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
+		m_updateAngle += m_updateRatio;
+
+		Debug.Log("New path: " + path.x + " " + path.y + " " + path.z);
 
 		return path;
 	}
