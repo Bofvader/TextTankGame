@@ -32,7 +32,9 @@ public class Console : MonoBehaviour
 		"loot([0-9])", "check([0-9])", "scavenge([0-9])", //loot
         "help", "whatdoido", "howdoidothis", "what", "whatisgoingon", "how", "question", //help
 		"changeweapons", "cartridgechange", "loaddifferentrounds", //weapon change
-		"allofthedirections", "howtotanks", 
+		"allofthedirections", "howtotanks", "helpme", "whysixpedals", "whyonlyfourpedals", //panic
+		"fuckyou", "fuckoff",  "youbitch", "fuckingbitch", "suchanasshole",  //cussing
+		"volley", "volleyfire", "butthatschruch", "exitvehicle", //easter eggs
 		"([0-9])" //menu controls
 	};
 
@@ -316,8 +318,40 @@ public class Console : MonoBehaviour
                             AddToLog("loot #: scavenge the remains of another tank using its tank number");
                             AddToLog("quit: quit game");
                             break;
-						case 38:
+						case 38: //change weapons
+						case 39: //cartridge change
+						case 40: //loaddifferentrounds
 							AddToLog("-Budget cuts have resricted on weapon variety.");
+							break;
+						case 41: //allofthedirections
+						case 42: //howtotanks
+						case 43: //helpme
+						case 44: //whysixpedals
+						case 45: //whyonlyfourpedals
+							AddToLog("-Woah, calm down there. Focus on the mission.");
+							break;
+						case 46: //fu
+						case 47: //fo
+						case 48: //ub
+							AddToLog("-Professionalism please...");
+							break;
+						case 49: //fb
+						case 50: //saa
+							AddToLog("-Well, that's not very nice...");
+							break;
+						case 51: //volley
+						case 52: //volleyfire
+							AddToLog("-Pew pew pew...pew pew");
+							break;
+						case 53: //butthatschruch
+							AddToLog("-Friendly fire on, target locked, firing main cannon.");
+							break;
+						case 54: //exitvehicle
+							AddToLog("-I can't let you do that Dave...");
+							break;
+						case 55:
+							break;
+						case 56:
 							break;
 						default:
 							AddToLog("-I'm sorry, I don't know what to do.");

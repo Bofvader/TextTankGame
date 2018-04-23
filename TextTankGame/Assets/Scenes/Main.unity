@@ -393,6 +393,11 @@ Prefab:
       propertyPath: m_updateTime
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114858274053490636, guid: f78875164f2fb1e46b92b2b16edbfe07,
+        type: 2}
+      propertyPath: m_maxSpeedBase
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114039500375781962, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: f78875164f2fb1e46b92b2b16edbfe07, type: 2}
@@ -622,7 +627,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_log: {fileID: 253615133}
   m_input: {fileID: 1849963985}
-  m_player: {fileID: 0}
+  m_player: {fileID: 1363234829}
   m_blip: {fileID: 8300000, guid: 109b94e6feeda634e8e002de9ebfee6b, type: 3}
   m_return: {fileID: 8300000, guid: 03318e1130472a349a0b8822fcb260d4, type: 3}
   m_maxLineCount: 10
@@ -1208,13 +1213,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1849963986}
   m_TextComponent: {fileID: 595491505}
   m_Placeholder: {fileID: 0}
-  m_ContentType: 4
+  m_ContentType: 0
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 1
+  m_KeyboardType: 0
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
+  m_CharacterValidation: 0
   m_CharacterLimit: 21
   m_OnEndEdit:
     m_PersistentCalls:
