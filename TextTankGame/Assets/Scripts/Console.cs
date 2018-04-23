@@ -34,7 +34,7 @@ public class Console : MonoBehaviour
 		"changeweapons", "cartridgechange", "loaddifferentrounds", //weapon change
 		"allofthedirections", "howtotanks", "helpme", "whysixpedals", "whyonlyfourpedals", //panic
 		"fuckyou", "fuckoff",  "youbitch", "fuckingbitch", "suchanasshole",  //cussing
-		"volley", "volleyfire", "butthatschruch", "exitvehicle", //easter eggs
+		"volley", "volleyfire", "butthatschruch", "exitvehicle", "useobject", "greetings", "hi", //easter eggs
 		"([0-9])" //menu controls
 	};
 
@@ -54,7 +54,7 @@ public class Console : MonoBehaviour
 		m_displayLog = new string[m_maxLineCount];
 
 		ClearConsole();
-		AddToLog("");
+		AddToLog("Tactical Texting");
 		for(int i=1;i<m_maxLineCount-2;i++)
 		{
 			AddToLog("");
@@ -129,7 +129,7 @@ public class Console : MonoBehaviour
 
 		ClearConsole();
 
-		AddToLog("Loading...");
+		AddToLog("Loading...(These words will break bones)");
 
 		yield return new WaitForSeconds(m_loadTime);
 		m_selectedMenu = next;
@@ -139,11 +139,11 @@ public class Console : MonoBehaviour
 		switch(m_selectedMenu)
 		{
 			case 0:
-				AddToLog("0 - Play");
-				AddToLog("1 - Exit");
+				AddToLog(">>0 - Play");
+				AddToLog(">>1 - Exit");
 				break;
 			case 1:
-				AddToLog("--These words will break bones.--");
+				AddToLog(">>Operation start<<");
 				Game.Instance.StartGame();
 				break;
 		}
@@ -349,9 +349,12 @@ public class Console : MonoBehaviour
 						case 54: //exitvehicle
 							AddToLog("-I can't let you do that Dave...");
 							break;
-						case 55:
+						case 55: //useobject
+							AddToLog("-...You are in a tank, sir. You have only this tank.");
 							break;
-						case 56:
+						case 56: //greetings
+						case 57: //hi
+							AddToLog("-um, hello? I'm not sure how to respond to that");
 							break;
 						default:
 							AddToLog("-I'm sorry, I don't know what to do.");

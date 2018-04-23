@@ -25,6 +25,20 @@ public class Game : Singleton<Game>
 	void Update()
 	{
 		CollisionDetection();
+
+		int death = 0;
+		foreach(Spawner s in m_spawners)
+		{
+			if(!s.Alive[0] && !s.Alive[1])
+			{
+				++death; 
+			}
+		}
+
+		if(death == m_spawners.Length)
+		{
+
+		}
 	}
 
 	void CollisionDetection()

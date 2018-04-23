@@ -63,7 +63,7 @@ public class Player : Tank
 
     public override void Died()
     {
-        m_console.LogMessage("-Happy commander!? We're more like swiss cheese than a tank.");
+        m_console.LogMessage("-Happy commander? We're more like swiss cheese than a tank.");
         base.Died();
     }
 

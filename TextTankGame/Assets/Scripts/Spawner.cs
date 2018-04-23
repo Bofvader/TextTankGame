@@ -9,9 +9,12 @@ public class Spawner : MonoBehaviour
 	[SerializeField] int m_maxPopulation = 3;
 	[SerializeField] int m_spawnAmount = 4;
 
+	bool[] m_isDead = new bool[2]; //limit reached, all units are dead
 	bool m_isSpawning = false;
 	float m_spawnTimer = 0.0f;
 	int m_amount = 0;
+
+	public bool[] Alive { get { return m_isDead; } }
 
 	void Update()
 	{
@@ -48,7 +51,13 @@ public class Spawner : MonoBehaviour
 
 			if (m_amount >= m_spawnAmount)
 			{
+				m_isDead[0] = true;
 				SpawnerOff();
+			}
+
+			if(population == 0)
+			{
+				m_isDead[2] = true;
 			}
 		}
 	}
