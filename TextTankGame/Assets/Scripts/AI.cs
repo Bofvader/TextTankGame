@@ -25,13 +25,12 @@ public class AI : Tank
         m_range = Mathf.Pow(m_projectileSpeed, 2);
         float launch = Mathf.Deg2Rad * 45 /*m_tiltAngle*/;
 
-        m_range *= Mathf.Sin(2 * launch);
+        m_range *= Mathf.Sin(launch);
         m_range /= Game.Instance.Gravity;
     }
 
 	protected void Update()
 	{
-
 		if (Alive)
 		{
 			if (m_speed < m_maxSpeed)
@@ -95,7 +94,6 @@ public class AI : Tank
 
 	Vector3 MeanderLeft()
 	{
-
 		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
 		m_updateAngle += m_updateRatio;
 
@@ -104,7 +102,6 @@ public class AI : Tank
 
 	Vector3 MeanderRight()
 	{
-
 		Vector3 path = Quaternion.AngleAxis(m_updateAngle, Vector3.up) * m_path;
 		m_updateAngle -= m_updateRatio;
 
