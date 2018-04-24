@@ -419,6 +419,7 @@ public class Player : Tank
     {
         m_tiltAngle = angle;
 
-        m_console.LogMessage("--We've angled the barrel " + angle + " degrees");
+		int range = (int)((Mathf.Pow(m_projectileSpeed, 2) * Mathf.Sin(2 * (Mathf.Deg2Rad * angle))) / Game.Instance.Gravity);
+        m_console.LogMessage("--We've angled the barrel " + angle + " degrees. Range is " + range);
     }
 }

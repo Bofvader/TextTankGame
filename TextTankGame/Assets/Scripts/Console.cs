@@ -265,7 +265,7 @@ public class Console : MonoBehaviour
 						case 22: //turnalt
 							if (m_player.Alive)
 							{
-								AddToLog("-Right away sir");
+								AddToLog("-Right away sir.");
 								m_player.Turn(int.Parse(match.Groups[1].Value));
 							}
 							break;

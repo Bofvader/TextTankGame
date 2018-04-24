@@ -184,7 +184,7 @@ public class Tank : MonoBehaviour
 			walls += (int)t.Size;
 		}
 
-		return walls >= rawDistance;
+		return walls > rawDistance;
 	}
 
 	public void PlayGunSound()
