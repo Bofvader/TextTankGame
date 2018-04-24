@@ -316,7 +316,6 @@ public class Player : Tank
 			{
 				Tank tank = go.GetComponent<Tank>();
 
-
 				if (this != tank)
 				{
 					if (tank.Alive)
@@ -396,6 +395,23 @@ public class Player : Tank
 								message += "southwest";
 							}
 						}
+					}
+
+					if (distance.magnitude <= 25)
+					{
+						message += ", in the immediate area.";
+					}
+					else if (distance.magnitude > 25 && distance.magnitude <= 50)
+					{
+						message += ", at a short distance";
+					}
+					else if (distance.magnitude > 50 && distance.magnitude <= 100)
+					{
+						message += ", at medium range";
+					}
+					else if (distance.magnitude > 100)
+					{
+						message += ", by a long shot";
 					}
 				}
 			}

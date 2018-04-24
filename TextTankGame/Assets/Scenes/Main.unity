@@ -4318,7 +4318,27 @@ Prefab:
     - target: {fileID: 114092191781086436, guid: 0906c43d4a05b5642811967c2d8f78dd,
         type: 2}
       propertyPath: m_scanRange
-      value: 30
+      value: 165
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092191781086436, guid: 0906c43d4a05b5642811967c2d8f78dd,
+        type: 2}
+      propertyPath: m_inVicinity
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092191781086436, guid: 0906c43d4a05b5642811967c2d8f78dd,
+        type: 2}
+      propertyPath: m_closeHit
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092191781086436, guid: 0906c43d4a05b5642811967c2d8f78dd,
+        type: 2}
+      propertyPath: m_errorMargin
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114092191781086436, guid: 0906c43d4a05b5642811967c2d8f78dd,
+        type: 2}
+      propertyPath: m_size
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0906c43d4a05b5642811967c2d8f78dd, type: 2}
@@ -4796,7 +4816,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.InputField+OnChangeEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_CaretColor: {r: 0.64705884, g: 0.64705884, b: 0.64705884, a: 0.766}
-  m_CustomCaretColor: 1
+  m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.9191176, g: 0.9191176, b: 0.9191176, a: 0.7529412}
   m_Text: 
   m_CaretBlinkRate: 1.5
